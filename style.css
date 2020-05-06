@@ -1,0 +1,122 @@
+body {
+    background: rgb(43, 43, 43);
+    color: white;
+    margin: 0;
+}
+
+#container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#values {
+    width: 300px;
+    min-height: 200px;
+    overflow: auto;
+}
+
+.control {
+    position: relative;
+    padding: 0;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.control.img {
+    margin: 5px;
+    background: none;
+    transition: .25s transform;
+}
+
+.control.img:hover {
+    transform: scale(1.1);
+}
+
+.control.d3d {
+    width: 75px;
+    height: 75px;
+    margin: 15px;
+    background: rgb(47, 47, 47);
+    border-radius: 50px;
+    box-shadow: -6px -4px 20px rgb(62, 62, 62),
+        6px 4px 20px rgb(16, 16, 16);
+}
+
+.control.d3d:active {
+    box-shadow: inset -6px -4px 20px rgb(62, 62, 62), inset 6px 4px 20px rgb(16, 16, 16);
+}
+
+.pause .left-stick,
+.pause .right-stick {
+    position: absolute;
+    top: 18px;
+    width: 12px;
+    height: 40px;
+    border-radius: 3px;
+    background: rgb(100, 100, 100);
+    box-shadow: 0 0 15px rgb(100, 100, 100);
+}
+
+.pause .left-stick {
+    left: 20px;
+}
+
+.pause .right-stick {
+    right: 20px;
+}
+
+.pause.pausing .left-stick,
+.pause.pausing .right-stick {
+    background: rgb(0, 178, 255);
+    box-shadow: 0px 0px 15px rgba(0, 194, 255, 0.65);
+}
+
+.record .red {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 40px;
+    height: 40px;
+    border-radius: 50px;
+    background: rgb(100, 100, 100);
+    box-shadow: 0 0 15px rgb(100, 100, 100);
+    transform: translate(-50%, -50%);
+}
+
+.record.recording .red {
+    animation: clignot 1s infinite;
+}
+
+.record:active .red {
+    transform: translate(-50%, -50%) scale(0.93);
+}
+
+@keyframes clignot {
+    0% {
+        background: rgb(100, 100, 100);
+        box-shadow: 0 0 15px rgb(100, 100, 100);
+    }
+
+    15% {
+        background: rgb(246, 78, 78);
+        box-shadow: 0 0 15px rgb(246, 78, 78);
+    }
+
+    100% {
+        background: rgb(100, 100, 100);
+        box-shadow: 0 0 15px rgb(100, 100, 100);
+    }
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding-bottom: 10px;
+    font-size: 10px;
+}
