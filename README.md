@@ -1,11 +1,11 @@
 # Timeline
 ### **Disclamer**
 
-This little project as been made for my personal use but I thougth it could interesting share it, so then you can use like a |||||||||||| for another project, maybe.
+This little project has been made for my personal use but I thougth it could be interesting to share it, so then you can use like a |||||||||||| for another project, may be.
 
 ### **Presentation**
 
-Timeline is a Javascript Library for the window.requestAnimationFrame API. It provides some Objects which can give you more controle on the recursives calls made by the rAF loop.
+Timeline is a Javascript Library for the window. requestAnimationFrame API. It provides some Objects which can give you more controle on the recursives calls made by the rAF loop.
 
 ### **Installation**
 `$ npm i -S timeline`
@@ -25,7 +25,7 @@ const callback = timestamp => {
 const loop = window.requestAnimationFrame(callback)
 ```
 
-All methods are statics so use |||||||||||| can compromissed your system. So to use the object, you need to create a new Timeline.
+All methods are static, so use |||||||||||| can compromise your system. So, for using the object, you need to create a new Timeline.
 
 | Methods   | Description                                           |
 | --------- | ----------------------------------------------------- |
@@ -35,9 +35,9 @@ All methods are statics so use |||||||||||| can compromissed your system. So to 
 
 ## **The Timeline object** `new Timeline()`
 
-The Timeline object is actually a subscriber to the ||||||||||||. All Timelines share the same loop provided by this |||||||||||| Object but also have there own current timestamp.
+The Timeline object is actually a subscriber to the ||||||||||||. All Timelines share the same loop provided by this |||||||||||| Object but also have their own current timestamp.
 
-You can add some options to your Timeline via an object in arguments.
+You can add some options to your Timeline via an object.
 
 ```javascript
 const timer = new Timeline({
@@ -45,7 +45,7 @@ const timer = new Timeline({
 })
 ```
 
-Here are the avalable options :
+Here are the available options :
 
 * **Id**
 
@@ -53,7 +53,7 @@ Here are the avalable options :
   | ---- | ----------------- | ------------ |
   | id   | `Number | String` | `Date.now()` |
   
-  All Timelines have an Id which is basically a simple `Date.now()` in milliseconds but you can specify one. It cannot be changed after declaration.
+  All Timelines have an Id which is basically a simple `Date.now()` in milliseconds but you can specify a one. It cannot be changed after its declaration.
 
   ```javascript
   const timer = new Timeline({ id: 'timer1' }))
@@ -65,7 +65,7 @@ Here are the avalable options :
   | ----- | -------- | ------- |
   | ratio | `Number` | `1`     |
 
-  The ratio define how fast the time should pass. It can be less than 0 and more 1 but the current timestamp will obviously be respectively negative and less precise.
+  The ratio define how fast the time should pass. It can be less than 0 or more 1 but the current timestamp will obviously be negative and less precise respectively.
 
   ```javascript
   const timer = new Timeline({ ratio: 0.5 }))
@@ -77,7 +77,7 @@ Here are the avalable options :
   | ---- | ------------------- | ------- |
   | task | `Function | Object` | `null`  |
   
-  Task is executed at each loop iterration. It can be a simple function or an object with the function to execute and a frequency at which the function will be executed.
+  Task is executed at each loop iterration. It can be a simple function or an object with the function to execute and a frequency in which the function will be executed.
   ```javascript
   const timer = new Timeline({
       task: timestamp => { /* do something */ }
@@ -91,7 +91,7 @@ Here are the avalable options :
       }
   }))
   ```
-  As you can see, you can retrive the current timestamp and other informations about your Timeline as one parameter, a Timestamp object.
+  As you can see, you can retrive the current timestamp and other information about your Timeline as one parameter, a Timestamp object.
   
 ## **The Timestamp object** `Timestamp`
 
@@ -110,7 +110,7 @@ You can control each Timeline via some simple methods, which all take a delay `N
 | ------- | ------------------------------------------------------------------------------------------------- |
 | start   | Start the Timeline, you can add some delay                                                        |
 | stop    | Stop the Timeline, you can add some delay                                                         |
-| reset   | Reset the Timeline, by stopping it first and then reseting all his values. You can add some delay |
+| reset   | Reset the Timeline, by stopping it firstly and then reseting all its values. You can add some delay |
 
 All methods are synchronised and called step by step, for exemple :
 
