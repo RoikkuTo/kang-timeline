@@ -73,7 +73,7 @@ Here are the avalable options :
 
 * **Task**
 
-  | Name | type                | default |
+  | Name | Type                | default |
   | ---- | ------------------- | ------- |
   | task | `Function | Object` | `null`  |
   
@@ -95,7 +95,12 @@ Here are the avalable options :
   
 ## **The Timestamp object** `Timestamp`
 
-||||||||||||
+Because each Timeline are based on a ||||||||||||, you can access to some informations about your Timeline throught the unique parameter of a task.
+
+  | Properties  | Type     | Description                                             |
+  | ----------- | -------- | ------------------------------------------------------- |
+  | currentTime | `Number` | The current timestamp of your Timeline                  |
+  | globalTime  | `Number` | The global timestamp, offer by \|\|\|\|\|\|\|\|\|\|\|\| |
 
 ## **Control Methods**
 
