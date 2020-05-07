@@ -17,6 +17,8 @@ Timeline is a Javascript Library for the window. requestAnimationFrame API. It p
 |||||||||||| represents the global time of our system. It is basically a recursive loop made with rAFs and to which are attached utilitary methods.
 
 ```javascript
+// Basic rAF loop
+
 const callback = timestamp => {
     // do something
     return window.requestAnimationFrame(callback)
@@ -25,7 +27,7 @@ const callback = timestamp => {
 const loop = window.requestAnimationFrame(callback)
 ```
 
-All methods are static, so use |||||||||||| can compromise your system. So, for using the object, you need to create a new Timeline.
+All methods are static and so utilitary. Using |||||||||||| can compromise your system. For using the object, you need to create a new Timeline.
 
 | Methods   | Description                                           |
 | --------- | ----------------------------------------------------- |
@@ -37,12 +39,17 @@ All methods are static, so use |||||||||||| can compromise your system. So, for 
 
 The Timeline object is actually a subscriber to the ||||||||||||. All Timelines share the same loop provided by this |||||||||||| Object but also have their own current timestamp.
 
-You can add some options to your Timeline via an object.
+You can add some options to your Timeline via an object, or you can call those options as methods.
 
 ```javascript
+// by argument
 const timer = new Timeline({
     task: () => { /* do something */ }
 })
+
+// OR by method
+const timer = new Timeline()
+timer.task(() => { /* do something */ })
 ```
 
 Here are the available options :
@@ -53,7 +60,7 @@ Here are the available options :
   | ---- | ----------------- | ------------ |
   | id   | `Number | String` | `Date.now()` |
   
-  All Timelines have an Id which is basically a simple `Date.now()` in milliseconds but you can specify a one. It cannot be changed after its declaration.
+  All Timelines have a unique Id which is basically a simple `Date.now()` in milliseconds but you can specify a one.
 
   ```javascript
   const timer = new Timeline({ id: 'timer1' }))
