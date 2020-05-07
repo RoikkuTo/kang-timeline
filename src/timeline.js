@@ -118,22 +118,20 @@ class Keytime {
 }
 
 class Timeline {
-    constructor({ id, ratio, task, range }) {
+    constructor({ id, ratio, task/* , range */ }) {
         this.id = id || Date.now()
         this.ratio = ratio || 1
         this.task = task ? new Task(task) : null
+        this.keytime = new Keytime()
         // this.range = range || [0, null, false]
 
         this.chain = new Chain(this)
-
         this.util = new Util(this)
 
         this.bank = 0
         this.initial = 0
         this.current = 0
         this.state = 'stop'
-
-        this.keytime = new Keytime()
 
         Time.subscribe(this.consume.bind(this))
     }
@@ -176,10 +174,6 @@ class Timeline {
         }
     }
 
-    addKeytime(key) {
-        this.keytime.add(key)
-    }
-
     request(name, delay = 0) {
         const req = (resolve, reject) => {
             this.util.key = {
@@ -203,6 +197,10 @@ class Timeline {
 
     reset(delay) {
         return this.request('reset', delay)
+    }
+
+    addKeytime(key) {
+        this.keytime.add(key)
     }
 }
 

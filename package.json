@@ -1,0 +1,26 @@
+{
+  "name": "Timer",
+  "version": "1.0.0",
+  "description": "This little project has been made for my personal use but I thougth it could be interesting to share it, so then you can use like a |||||||||||| for another project, may be.",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RoikkuTo/laughing-eureka.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RoikkuTo/laughing-eureka/issues"
+  },
+  "homepage": "https://github.com/RoikkuTo/laughing-eureka#readme",
+  "devDependencies": {
+    "gulp": "^4.0.2"
+  }
+}
