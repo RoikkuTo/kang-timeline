@@ -23,9 +23,11 @@
   "homepage": "https://github.com/RoikkuTo/laughing-eureka#readme",
   "devDependencies": {
     "@babel/core": "^7.9.6",
+    "@babel/plugin-transform-async-to-generator": "^7.8.3",
     "@babel/preset-env": "^7.9.6",
-    "rollup": "^2.9.1",
-    "webpack-cli": "^3.3.11"
+    "@rollup/plugin-babel": "^5.0.0",
+    "@rollup/plugin-node-resolve": "^7.1.3",
+    "rollup": "^2.9.1"
   },
   "dependencies": {}
 }
