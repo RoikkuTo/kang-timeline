@@ -2,7 +2,7 @@ let timeSubscribers = []
 
 export default class Time {
     static loop(timestamp) {
-        timeSubscribers.forEach(consumer => consumer(timestamp))
+        for (const consumer of timeSubscribers) consumer(timestamp)
 
         Time.requestId = requestAnimationFrame(Time.loop)
     }

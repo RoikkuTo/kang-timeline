@@ -7,7 +7,10 @@
     var timeSubscribers = [];
     class Time {
       static loop(timestamp) {
-        timeSubscribers.forEach(consumer => consumer(timestamp));
+        for (var consumer of timeSubscribers) {
+          consumer(timestamp);
+        }
+
         Time.requestId = requestAnimationFrame(Time.loop);
       }
 
