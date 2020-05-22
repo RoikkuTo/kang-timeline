@@ -15,9 +15,16 @@ export default class Keytime {
         })
     }
 
-    compare(timestamp) {
-        if (this.list[this.index] && this.list[this.index].timestamp <= timestamp) {
-            this.list[this.index].callback(timestamp)
+    remove(id) {
+        const target = this.list.map(kt => kt.id).indexOf(id)
+        this.list.splice(target, 0)
+        this.index--
+    }
+
+    compare(ts) {
+        if (this.list[this.index] && this.list[this.index]
+            .currentTime <= ts.currentTime) {
+            this.list[this.index].run(ts)
             this.index++
         }
     }

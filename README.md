@@ -1,7 +1,7 @@
 # Timeline
 ### **Disclamer**
 
-This little project has been made for my personal use but I thougth it could be interesting to share it, so then you can use like a |||||||||||| for another project, may be.
+This little project has been made for my personal use but I thougth it could be interesting to share it, so then you can use like a `TimeProvider` for another project, may be.
 
 ### **Presentation**
 
@@ -10,16 +10,34 @@ Timeline is a Javascript Library for the window. requestAnimationFrame API. It p
 ### **Installation**
 `$ npm i -S timeline`
 
-# ||||||||||||
+### **Import**
 
-## **The Origin Timeline** `Time`
+You can import the library as an es module :
+```javascript
+import Timeline from 'timeline'
+```
 
-|||||||||||| represents the global time of our system. It is basically a recursive loop made with rAFs and to which are attached utilitary methods.
+Or via the exposed varible ||||||||||||| :
+
+```html
+<script src="/path/to/timeline.umd.js"></script>
+```
+
+```javascript
+const { Timeline } = |||||||||||||
+const timer = new Timeline()
+```
+
+# Objects and Methods
+
+## **The Provider** `TimeProvider`
+
+`TimeProvider` represents the global time of our system. It is basically a recursive loop made with rAFs and to which are attached utilitary methods.
 
 ```javascript
 // Basic rAF loop
 
-const callback = timestamp => {
+const callback = ts => {
     // do something
     return window.requestAnimationFrame(callback)
 }
@@ -27,7 +45,7 @@ const callback = timestamp => {
 const loop = window.requestAnimationFrame(callback)
 ```
 
-All methods are static and so utilitary. Using |||||||||||| can compromise your system. For using the object, you need to create a new Timeline.
+All methods are static and so utilitary. Using `TimeProvider` can compromise your system. For using the object, you need to create a new Timeline.
 
 | Methods   | Description                                           |
 | --------- | ----------------------------------------------------- |
@@ -37,7 +55,7 @@ All methods are static and so utilitary. Using |||||||||||| can compromise your 
 
 ## **The Timeline object** `new Timeline()`
 
-The Timeline object is actually a subscriber to the ||||||||||||. All Timelines share the same loop provided by this |||||||||||| Object but also have their own current timestamp.
+The Timeline object is actually a subscriber to the `TimeProvider`. All Timelines share the same loop provided by the TimeProvider Object but also have their own current timestamp.
 
 You can add some options to your Timeline via an object, or you can call those options as methods.
 
@@ -87,14 +105,14 @@ Here are the available options :
   Task is executed at each loop iterration. It can be a simple function or an object with the function to execute and a frequency in which the function will be executed.
   ```javascript
   const timer = new Timeline({
-      task: timestamp => { /* do something */ }
+      task: ts => { /* do something */ }
   })
   ```
   ```javascript
   const timer = new Timeline({
       task: {
           frequency: 1000,
-          run: timestamp => { /* do something */ }
+          run: ts => { /* do something */ }
       }
   }))
   ```
@@ -102,24 +120,94 @@ Here are the available options :
   
 ## **The Timestamp object** `Timestamp`
 
-Because each Timeline are based on a ||||||||||||, you can access to some informations about your Timeline throught the unique parameter of a task.
+Because each Timeline are based on a provided time, you can access to some informations about your Timeline throught the unique parameter of a task, the `Timestamp` Object.
 
-  | Properties  | Type     | Description                                             |
-  | ----------- | -------- | ------------------------------------------------------- |
-  | currentTime | `Number` | The current timestamp of your Timeline                  |
-  | globalTime  | `Number` | The global timestamp, offer by \|\|\|\|\|\|\|\|\|\|\|\| |
+| Properties  | Type     | Description                                         |
+| ----------- | -------- | --------------------------------------------------- |
+| currentTime | `Number` | The current timestamp of your Timeline              |
+| globalTime  | `Number` | The global timestamp, offered by the `TimeProvider` |
+
+## **Key Times methods**
+
+* **Add key times** `Timestamp.addKeytime([ Object || Array ])`
+
+  The key times trigger a callback at a specifed timestamp or each specifed timestamp. The method takes one parameter, an Object.
+
+  | Properties | Type              | Description          |
+  | ---------- | ----------------- | -------------------- |
+  | id         | `Number | String` | A unique id          |
+  | timestamp  | `Number`          | The target timestamp |
+  | run        | `Function`        | The callback to run  |
+
+  (We use the `run` as the callback... name to change a little bit 😊)
+
+  ```javascript
+  // We create our Timeline instance
+  const timer = new Timeline()
+
+  // And we add a keytime
+  timer.addKeytime({
+    id: 'log-0',
+    timestamp: 5000
+    run: ts => {
+      console.log(timestamp)
+    }
+  })
+  ```
+
+  With this exemple, you can directly compare how different the result is compared to the target. Usually its 
+
+* **Remove key times** `Timestamp.removeKeytimes([ Number | String | Array ])`
+  
+  Remove key times by their id.
+
+  ```javascript
+  // Our "log-0" key time is still there
+  // Let's remove it
+  timer.removeKeytime('log-0')
+  ```
+
+* **List key times** `Timestamp.listKeytimes()`
+
+  Also you can list all your keytimes by this method. They will be listed in order to their timestamp.
+  ```javascript
+  // No way, they want to renvenge
+
+  const list = timer.listKeytimes()
+
+  console.log(list)
+  /* Output
+  [
+    {
+      id: "log-1",
+      timestamp: 5000,
+      run: ts => { console.log(ts) }
+    },
+    {
+      id: "log-3",
+      timestamp: 8000,
+      ...
+    },
+    {
+      id: "log-2",
+      timestamp: 1400,
+      ...
+    }
+  ]
+  */
+  ```
 
 ## **Control Methods**
 
 You can control each Timeline via some simple methods, which all take a delay `Number` as parameter .
 
-| Methods | Description                                                                                       |
-| ------- | ------------------------------------------------------------------------------------------------- |
-| start   | Start the Timeline, you can add some delay                                                        |
-| stop    | Stop the Timeline, you can add some delay                                                         |
+| Methods | Description                                                                                         |
+| ------- | --------------------------------------------------------------------------------------------------- |
+| start   | Start the Timeline, you can add some delay                                                          |
+| stop    | Stop the Timeline, you can add some delay                                                           |
 | reset   | Reset the Timeline, by stopping it firstly and then reseting all its values. You can add some delay |
 
-All methods are synchronised and called step by step, for exemple :
+All methods are "stackable" and called "stack by stack", for exemple :
 
 ```javascript
 // Create a new Timeline
@@ -137,12 +225,12 @@ timer.reset(1000)
 timer.start().stop(5000).reset(1000)
 ```
 
+## **Demo**
 
+A demo is accessible in the *test* folder of the repot
 
-___
+# Todolist
 
-Taches (Task)
-
-Temps clés (Keytime)
-
-Enregistrement (Record) next version
+* [ ] Add a demo page
+* [ ] Add a record solution (method) to extract our timelines and replay, pause, modify them on demand. This could be a good feature for animators
+* [ ] Add types

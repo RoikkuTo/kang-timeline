@@ -7,11 +7,11 @@ export default class Util {
         this.timestamp = 0
     }
 
-    compare(timestamp) {
+    compare(ts) {
         if (this.key) {
-            if (this.temp === null) this.temp = timestamp + this.key.delay
-            if (this.temp !== null && this.temp <= timestamp) {
-                this.key.callback(timestamp)
+            if (this.temp === null) this.temp = ts.currentTime + this.key.delay
+            if (this.temp !== null && this.temp <= ts.currentTime) {
+                this.key.callback(ts)
                 this.key = null
                 this.temp = null
             }

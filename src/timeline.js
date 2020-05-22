@@ -1,4 +1,4 @@
-import Time from './Time.js'
+import TimeProvider from './TimeProvider.js'
 import Task from './Task.js'
 import Keytime from './Keytime.js'
 import Chain from './Chain.js'
@@ -7,11 +7,15 @@ import Timestamp from './Timestamp.js'
 
 export default class Timeline {
     constructor({ id, ratio, task/* , range */ }) {
-        this.id = id || Date.now()
+        this.id = (id => {
+            if (id) {
+                if (TimeProvider.checkId(id)) this.id = id
+                else console.error(`ERROR: The "${id}" id has already been defined. (Timeline Library)`)
+            } else Date.now()
+        })(id)
         this.ratio = ratio || 1
         this.task = task ? new Task(task) : null
         this.keytime = new Keytime()
-        // this.range = range || [0, null, false]
 
         this.chain = new Chain(this)
         this.util = new Util(this)
@@ -21,13 +25,45 @@ export default class Timeline {
         this.current = 0
         this.state = 'stop'
 
-        Time.subscribe(this.consume.bind(this))
+        TimeProvider.subscribe(this.consume.bind(this))
     }
 
     consume(timestamp) {
         this.controller(timestamp)
-        this.util.compare(timestamp)
-        this.keytime.compare(timestamp)
+
+        const ts = new Timestamp({
+            currentTime: this.current,
+            globalTime: timestamp
+        })
+        this.util.compare(ts)
+        this.keytime.compare(ts)
+    }
+
+    id(id) {
+        if (id) {
+            if (TimeProvider.checkId(id)) this.id = id
+            else console.error(`ERROR: The "${id}" id has already been defined. (Timeline Library)`)
+        } else console.error(`ERROR: Please specify an id. (Timeline Library)`)
+    }
+
+    ratio(ratio) {
+        this.ratio = ratio
+    }
+
+    task(task) {
+        this.task = new Task(task)
+    }
+
+    addKeytime(key) {
+        this.keytime.add(key)
+    }
+
+    removeKeytime(id) {
+        this.keytime.remove(id)
+    }
+
+    listKeytimes() {
+        return this.keytime.list
     }
 
     controller(timestamp) {
@@ -85,9 +121,5 @@ export default class Timeline {
 
     reset(delay) {
         return this.request('reset', delay)
-    }
-
-    addKeytime(key) {
-        this.keytime.add(key)
     }
 }
