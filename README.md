@@ -17,14 +17,14 @@ You can import the library as an es module :
 import Timeline from 'timeline'
 ```
 
-Or via the exposed varible ||||||||||||| :
+Or via the exposed varible umd :
 
 ```html
 <script src="/path/to/timeline.umd.js"></script>
 ```
 
 ```javascript
-const { Timeline } = |||||||||||||
+const { Timeline } = umd
 const timer = new Timeline()
 ```
 

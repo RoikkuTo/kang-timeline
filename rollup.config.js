@@ -4,12 +4,11 @@ import { terser } from "rollup-plugin-terser"
 export default {
     input: 'src/Timeline.js',
     output: [{
-        name: 'UMDBundle',
+        name: 'umd',
         file: 'dist/bundle.umd.js',
         format: 'umd'
     },
     {
-        name: 'ESBundle',
         file: 'dist/bundle.es.js',
         format: 'es'
     }],
