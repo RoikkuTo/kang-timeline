@@ -1,8 +1,6 @@
 # Timeline
 
-### Disclamer
-
-This little project has been made for my personal use but I thougth it could be interesting to share it.
+> **Disclamer :** This little project has been made for my personal use but I thougth it could be interesting to share it.
 
 ### Presentation
 
@@ -46,7 +44,7 @@ const timer = new Timeline()
     -   [`Timestamp.listKeytimes()`](#timestamplistkeytimes)
 -   **[Todolist](#todolist)**
 
-## The Provider `TimeProvider`
+# The Provider `TimeProvider`
 
 `TimeProvider` represents the global time of our system. It is basically a recursive loop made with rAFs and to which are attached utilitary methods.
 
@@ -69,7 +67,7 @@ All methods are static and so utilitary. Using `TimeProvider` can compromise you
 | start     | Start the loop                                        |
 | loop      | The loop callback                                     |
 
-## The Timeline object `new Timeline()`
+# The Timeline object `new Timeline()`
 
 The Timeline object is actually a subscriber to the `TimeProvider`. All Timelines share the same loop provided by the TimeProvider Object but also have their own current timestamp.
 
@@ -89,8 +87,6 @@ timer.setTask(() => {
 	/* do something */
 })
 ```
-
-### Available options
 
 ### `id`
 
@@ -143,7 +139,7 @@ const timer = new Timeline({
 
 As you can see, you can retrive the current timestamp and other informations about your Timeline as the argument descibed below.
 
-## The Timestamp object `Timestamp`
+# The Timestamp object `Timestamp`
 
 Because each Timeline are based on a provided time, you can access to some informations about your Timeline throught the unique parameter of a task.
 
@@ -152,7 +148,7 @@ Because each Timeline are based on a provided time, you can access to some infor
 | currentTime | `Number` | The current timestamp of your Timeline              |
 | globalTime  | `Number` | The global timestamp, offered by the `TimeProvider` |
 
-## **Control Methods**
+# **Control Methods**
 
 You can control each Timeline by simple methods, which all can take a delay and a callback as parameters.
 
@@ -178,7 +174,7 @@ timer.reset(1000)
 timer.start().stop(5000).reset(1000)
 ```
 
-## Key Times methods
+# Key Times methods
 
 ### `Timestamp.addKeytime([ Object | Array ])`
 
