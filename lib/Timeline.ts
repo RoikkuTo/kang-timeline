@@ -191,7 +191,7 @@ export default class Timeline {
 	 * @param callback
 	 * @returns Current timeline
 	 */
-	start(callback: () => void, delay: number) {
+	start(delay: number, callback: () => void) {
 		return this.request('start', delay, callback)
 	}
 
@@ -201,7 +201,7 @@ export default class Timeline {
 	 * @param callback
 	 * @returns Current timeline
 	 */
-	stop(callback: () => void, delay: number) {
+	stop(delay: number, callback: () => void) {
 		return this.request('stop', delay, callback)
 	}
 
@@ -211,7 +211,7 @@ export default class Timeline {
 	 * @param callback
 	 * @returns Current timeline
 	 */
-	reset(callback: () => void, delay: number) {
+	reset(delay: number, callback: () => void) {
 		return this.request('reset', delay, callback)
 	}
 

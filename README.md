@@ -1,18 +1,18 @@
 # Timeline
 
-### **Disclamer**
+### Disclamer
 
-This little project has been made for my personal use but I thougth it could be interesting to share it, so then you can use like a `TimeProvider` for another project, may be.
+This little project has been made for my personal use but I thougth it could be interesting to share it.
 
-### **Presentation**
+### Presentation
 
-Timeline is a Javascript Library for the window. requestAnimationFrame API. It provides some Objects which can give you more controle on the recursives calls made by the rAF loop.
+Timeline is a Javascript Library for the [`window.requestAnimationFrame()`](https://developer.mozilla.org/fr/docs/Web/API/Window/requestAnimationFrame) API. It provides some Objects which can give you more controle on the recursives calls made by a `requestAnimationFrame` (or _rAF_ for short) loop.
 
-### **Installation**
+### Installation
 
 `$ npm i -S timeline`
 
-### **Import**
+### Import
 
 You can import the library as an es module :
 
@@ -33,7 +33,20 @@ const timer = new Timeline()
 
 # Objects and Methods
 
-## **The Provider** `TimeProvider`
+-   **[The Provider `TimeProvider`](#the-provider-timeprovider)**
+-   **[The Timeline object `new Timeline()`](#the-timeline-object-new-timeline)**
+    -   [`id`](#id)
+    -   [`speed`](#speed)
+    -   [`task`](#task)
+-   **[The Timestamp object `Timestamp`](#the-timestamp-object-timestamp)**
+-   **[Control Methods](#control-methods)**
+-   **[Key Times methods](#key-times-methods)**
+    -   [`Timestamp.addKeytime([ Object | Array ])`]()
+    -   [`Timestamp.removeKeytimes([ Number | String | Array ])`]()
+    -   [`Timestamp.listKeytimes()`](#timestamplistkeytimes)
+-   **[Todolist](#todolist)**
+
+## The Provider `TimeProvider`
 
 `TimeProvider` represents the global time of our system. It is basically a recursive loop made with rAFs and to which are attached utilitary methods.
 
@@ -48,7 +61,7 @@ const callback = ts => {
 const loop = window.requestAnimationFrame(callback)
 ```
 
-All methods are static and so utilitary. Using `TimeProvider` can compromise your system. For using the object, you need to create a new Timeline.
+All methods are static and so utilitary. Using `TimeProvider` can compromise your system. For using the object, you need to create a new **Timeline**.
 
 | Methods   | Description                                           |
 | --------- | ----------------------------------------------------- |
@@ -56,11 +69,11 @@ All methods are static and so utilitary. Using `TimeProvider` can compromise you
 | start     | Start the loop                                        |
 | loop      | The loop callback                                     |
 
-## **The Timeline object** `new Timeline()`
+## The Timeline object `new Timeline()`
 
 The Timeline object is actually a subscriber to the `TimeProvider`. All Timelines share the same loop provided by the TimeProvider Object but also have their own current timestamp.
 
-You can add some options to your Timeline via an object, or you can call those options as methods.
+You can add some options to your Timeline by passing an object as argument, or by setting those options afterward via methods.
 
 ```javascript
 // by argument
@@ -72,155 +85,82 @@ const timer = new Timeline({
 
 // OR by method
 const timer = new Timeline()
-timer.task(() => {
+timer.setTask(() => {
 	/* do something */
 })
 ```
 
-Here are the available options :
+### Available options
 
--   **Id**
+### `id`
 
-    | Name | Type    | Default |
-    | ---- | ------- | ------- | ------------ |
-    | id   | `Number | String` | `Date.now()` |
+| Name    | Type    | Default      |
+| ------- | ------- | ------------ |
+| `Number | String` | `Date.now()` |
 
-    All Timelines have a unique Id which is basically a simple `Date.now()` in milliseconds but you can specify a one.
+All Timelines have a unique _id_ which is basically a simple `Date.now()` in milliseconds but you can specify a one.
 
-    ```javascript
-    const timer = new Timeline({ id: 'timer1' }))
-    ```
+```javascript
+const timer = new Timeline({ id: 'timer1' }))
+```
 
--   **Ratio**
+### `speed`
 
-    | Name  | Type     | Default |
-    | ----- | -------- | ------- |
-    | ratio | `Number` | `1`     |
+| Name  | Type     | Default |
+| ----- | -------- | ------- |
+| speed | `Number` | `1`     |
 
-    The ratio define how fast the time should pass. It can be less than 0 or more 1 but the current timestamp will obviously be negative and less precise respectively.
+The speed define how fast the time should pass. It can be less than 0 or greater than 1 but the current timestamp will obviously be negative and less precise respectively.
 
-    ```javascript
-    const timer = new Timeline({ ratio: 0.5 }))
-    ```
+```javascript
+const timer = new Timeline({ speed: 0.5 }))
+```
 
--   **Task**
+### `task`
 
-    | Name | Type      | default |
-    | ---- | --------- | ------- | ------ |
-    | task | `Function | Object` | `null` |
+| Name | Type                 | default |
+| ---- | -------------------- | ------- |
+| task | `Function \| Object` | `null`  |
 
-    Task is executed at each loop iterration. It can be a simple function or an object with the function to execute and a frequency in which the function will be executed.
+Task is executed at each loop iterration. It can be a simple function or an object with a function to execute at a given frequency.
 
-    ```javascript
-    const timer = new Timeline({
-    	task: ts => {
-    		/* do something */
-    	}
-    })
-    ```
+```javascript
+const timer = new Timeline({
+	task: ts => {
+		/* do something */
+	}
+})
+```
 
-    ```javascript
-    const timer = new Timeline({
-        task: {
-            frequency: 1000,
-            run: ts => { /* do something */ }
-        }
-    }))
-    ```
+```javascript
+const timer = new Timeline({
+    task: {
+        frequency: 1000, // each second
+        run: timestamp => { /* do something */ }
+    }
+}))
+```
 
-    As you can see, you can retrive the current timestamp and other information about your Timeline as one parameter, a Timestamp object.
+As you can see, you can retrive the current timestamp and other informations about your Timeline as the argument descibed below.
 
-## **The Timestamp object** `Timestamp`
+## The Timestamp object `Timestamp`
 
-Because each Timeline are based on a provided time, you can access to some informations about your Timeline throught the unique parameter of a task, the `Timestamp` Object.
+Because each Timeline are based on a provided time, you can access to some informations about your Timeline throught the unique parameter of a task.
 
 | Properties  | Type     | Description                                         |
 | ----------- | -------- | --------------------------------------------------- |
 | currentTime | `Number` | The current timestamp of your Timeline              |
 | globalTime  | `Number` | The global timestamp, offered by the `TimeProvider` |
 
-## **Key Times methods**
-
--   **Add key times** `Timestamp.addKeytime([ Object || Array ])`
-
-    The key times trigger a callback at a specifed timestamp or each specifed timestamp. The method takes one parameter, an Object.
-
-    | Properties | Type       | Description          |
-    | ---------- | ---------- | -------------------- | ----------- |
-    | id         | `Number    | String`              | A unique id |
-    | timestamp  | `Number`   | The target timestamp |
-    | run        | `Function` | The callback to run  |
-
-    (We use the `run` as the callback... name to change a little bit 😊)
-
-    ```javascript
-    // We create our Timeline instance
-    const timer = new Timeline()
-
-    // And we add a keytime
-    timer.addKeytime({
-      id: 'log-0',
-      timestamp: 5000
-      run: ts => {
-        console.log(timestamp)
-      }
-    })
-    ```
-
-    With this exemple, you can directly compare how different the result is compared to the target. Usually its
-
--   **Remove key times** `Timestamp.removeKeytimes([ Number | String | Array ])`
-
-    Remove key times by their id.
-
-    ```javascript
-    // Our "log-0" key time is still there
-    // Let's remove it
-    timer.removeKeytime('log-0')
-    ```
-
--   **List key times** `Timestamp.listKeytimes()`
-
-    Also you can list all your keytimes by this method. They will be listed in order to their timestamp.
-
-    ```javascript
-    // No way, they want to renvenge
-
-    const list = timer.listKeytimes()
-
-    console.log(list)
-    /* Output
-    [
-      {
-        id: "log-1",
-        timestamp: 5000,
-        run: ts => { console.log(ts) }
-      },
-      {
-        id: "log-3",
-        timestamp: 8000,
-        ...
-      },
-      {
-        id: "log-2",
-        timestamp: 1400,
-        ...
-      }
-    ]
-    */
-    ```
-
 ## **Control Methods**
 
-You can control each Timeline via some simple methods, which all take a delay `Number` as parameter .
+You can control each Timeline by simple methods, which all can take a delay and a callback as parameters.
 
-| Methods | Description                                                                                         |
-| ------- | --------------------------------------------------------------------------------------------------- |
-| start   | Start the Timeline, you can add some delay                                                          |
-| stop    | Stop the Timeline, you can add some delay                                                           |
-| reset   | Reset the Timeline, by stopping it firstly and then reseting all its values. You can add some delay |
-
-All methods are "stackable" and called "stack by stack", for exemple :
+| Methods | Description                                                                  |
+| ------- | ---------------------------------------------------------------------------- |
+| start   | Start the Timeline                                                           |
+| stop    | Stop the Timeline                                                            |
+| reset   | Reset the Timeline, by stopping it firstly and then reseting all its values. |
 
 ```javascript
 // Create a new Timeline
@@ -238,12 +178,72 @@ timer.reset(1000)
 timer.start().stop(5000).reset(1000)
 ```
 
-## **Demo**
+## Key Times methods
 
-A demo is accessible in the _test_ folder of the repot
+### `Timestamp.addKeytime([ Object | Array ])`
+
+A key time trigger a callback at a specifed timestamp. You can multiple key times by passing an array to the method.
+
+| Properties | Type               | Description            |
+| ---------- | ------------------ | ---------------------- |
+| id         | `Number \| String` | A unique id            |
+| timestamp  | `Number`           | The targeted timestamp |
+| task       | `Function`         | The callback to run    |
+
+```javascript
+// We create our Timeline instance
+const timer = new Timeline()
+
+// And we add a keytime
+timer.addKeytime({
+  id: 'log-0',
+  timestamp: 5000
+  task: timestamp => {
+    console.log(timestamp)
+  }
+})
+```
+
+Usually, the targeted timestamp and the actual execution timestamp have a delta of ||||||||||||||||||
+
+### `Timestamp.removeKeytimes([ Number | String | Array ])`
+
+Remove key times by their _id_.
+
+```javascript
+// Our "log-0" key time is still there
+// Let's remove it
+timer.removeKeytime('log-0')
+```
+
+### `Timestamp.listKeytimes()`
+
+Also you can list all your keytimes by this method. They will be listed in order to their timestamp.
+
+```javascript
+const list = timer.listKeytimes()
+
+console.log(list)
+/* Output
+[
+  {
+    id: "log-1",
+    timestamp: 5000,
+    run: ts => { console.log(ts) }
+  },
+  {
+    id: "log-3",
+    timestamp: 8000,
+    ...
+  }
+]
+*/
+```
 
 # Todolist
 
 -   [ ] Add a demo page
 -   [ ] Add a record solution (method) to extract our timelines and replay, pause, modify them on demand. This could be a good feature for animators
--   [*] Add types
+-   [x] Add types
+
+A demo is accessible in the _test_ folder of the repot

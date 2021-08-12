@@ -16,7 +16,6 @@ export default class Chain {
 				// Can had callback params, why not
 				.then(() => {
 					callback()
-					console.log('vu')
 					resolve(null)
 				})
 				.catch(() => {
