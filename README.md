@@ -8,7 +8,9 @@ Timeline is a Javascript Library for the [`window.requestAnimationFrame()`](http
 
 ### Installation
 
-`$ npm i -S timeline`
+```bash
+$ npm i -S timeline
+```
 
 ### Import
 
@@ -241,5 +243,3 @@ console.log(list)
 -   [ ] Add a demo page
 -   [ ] Add a record solution (method) to extract our timelines and replay, pause, modify them on demand. This could be a good feature for animators
 -   [x] Add types
-
-A demo is accessible in the _test_ folder of the repot

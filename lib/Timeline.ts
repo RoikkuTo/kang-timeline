@@ -18,6 +18,11 @@ interface opts {
 	 * A task to be executed
 	 */
 	task?: UserTask
+
+	/**
+	 * Loop the animation after a given duration
+	 */
+	loop?: number
 }
 
 export default class Timeline {
@@ -36,22 +41,27 @@ export default class Timeline {
 	 */
 	task: Task | null
 
+	/**
+	 * Loop the animation after a given duration
+	 */
+	loop?: number
+
 	private userKeytimes: UserKeytimes
 
 	private chain: Chain
 	private utilKeytimes: UtilKeytimes
 
-	private bank: number | null
-	private initial: number
-	private current: number
+	private bank: number | null = 0
+	private initial: number = 0
+	private current: number = 0
 
 	/**
 	 * The current state of the timeline
 	 */
-	state: 'start' | 'stop' | 'reset'
+	state: 'start' | 'stop' | 'reset' = 'stop'
 
 	constructor(opts: opts = {}) {
-		const { id, speed: ratio, task /* , range */ } = opts
+		const { id, speed: ratio, task, loop /* , range */ } = opts
 		this.id = (id => {
 			if (id) {
 				if (TimeProvider.checkId(id)) return id
@@ -63,15 +73,12 @@ export default class Timeline {
 		})(id)
 		this.speed = ratio || 1
 		this.task = task ? new Task(task) : null
+		this.loop = loop
+
 		this.userKeytimes = new UserKeytimes()
 
 		this.chain = new Chain(this)
 		this.utilKeytimes = new UtilKeytimes(this)
-
-		this.bank = 0
-		this.initial = 0
-		this.current = 0
-		this.state = 'stop'
 
 		TimeProvider.subscribe(this)
 	}
@@ -101,10 +108,10 @@ export default class Timeline {
 
 	/**
 	 * Set the ratio afterwards
-	 * @param ratio
+	 * @param speed
 	 */
-	setRatio(ratio: Timeline['speed']) {
-		this.speed = ratio
+	setSpeed(speed: Timeline['speed']) {
+		this.speed = speed
 	}
 
 	/**
@@ -152,6 +159,7 @@ export default class Timeline {
 				}
 				this.current = (timestamp - this.initial) * this.speed
 				this.task && this.task.run(new Timestamp(this.current, timestamp))
+				if (this.loop && this.current >= this.loop) this.reset().start()
 				break
 
 			case 'stop':
@@ -163,6 +171,7 @@ export default class Timeline {
 				this.current = 0
 				this.initial = 0
 				this.bank = null
+				if (this.task) this.task.count = 0
 				break
 
 			default:
@@ -171,7 +180,7 @@ export default class Timeline {
 		}
 	}
 
-	private request(name: Timeline['state'], delay = 0, cb: () => any) {
+	private request(name: Timeline['state'], delay = 0, cb?: () => any) {
 		const req: PromiseExecutor = (resolve, reject) => {
 			this.utilKeytimes.keytime = {
 				id: Date.now(),
@@ -191,7 +200,7 @@ export default class Timeline {
 	 * @param callback
 	 * @returns Current timeline
 	 */
-	start(delay: number, callback: () => void) {
+	start(delay?: number, callback?: () => void) {
 		return this.request('start', delay, callback)
 	}
 
@@ -201,7 +210,7 @@ export default class Timeline {
 	 * @param callback
 	 * @returns Current timeline
 	 */
-	stop(delay: number, callback: () => void) {
+	stop(delay?: number, callback?: () => void) {
 		return this.request('stop', delay, callback)
 	}
 
@@ -211,7 +220,7 @@ export default class Timeline {
 	 * @param callback
 	 * @returns Current timeline
 	 */
-	reset(delay: number, callback: () => void) {
+	reset(delay?: number, callback?: () => void) {
 		return this.request('reset', delay, callback)
 	}
 
@@ -220,5 +229,9 @@ export default class Timeline {
 	 */
 	delete() {
 		TimeProvider.unsubscribe(this.id)
+	}
+
+	setTimestamp(timestamp: number) {
+		this.current -= this.current - timestamp
 	}
 }

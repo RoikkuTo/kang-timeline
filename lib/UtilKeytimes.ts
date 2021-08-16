@@ -20,8 +20,8 @@ export default class UtilKeytimes {
 
 	compare(ts: Timestamp) {
 		if (this.keytime) {
-			if (this.temp === null) this.temp = ts.currentTime + this.keytime.delay
-			if (this.temp !== null && this.temp <= ts.currentTime) {
+			if (this.temp === null) this.temp = ts.globalTime + this.keytime.delay
+			if (this.temp !== null && this.temp <= ts.globalTime) {
 				this.keytime.callback(ts)
 				this.keytime = null
 				this.temp = null

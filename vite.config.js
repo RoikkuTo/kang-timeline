@@ -1,11 +1,21 @@
-const path = require('path')
+import { resolve } from 'path'
 
-module.exports = {
+export default {
+	root: '.',
 	build: {
 		lib: {
-			entry: path.resolve(__dirname, 'lib/Timeline.ts'),
+			entry: resolve(__dirname, 'lib/Timeline.ts'),
 			name: 'Timeline',
-			fileName: format => `timeline.${format}.js`
+			formats: ['umd'],
+			fileName: () => 'timeline.min.js'
+		},
+		emptyOutDir: false
+	},
+	resolve: {
+		alias: {
+			'@': __dirname,
+			'@lib': resolve(__dirname, 'dist/Timeline'),
+			'@icons': resolve(__dirname, 'src/icons')
 		}
 	}
 }

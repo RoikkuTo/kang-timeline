@@ -16,7 +16,7 @@ export type UserTask = TaskOpts | TaskFunc
 export default class Task {
 	frequency: number = 0
 	task: TaskFunc = () => null
-	count: number
+	count: number = 0
 
 	constructor(task: UserTask) {
 		if (typeof task === 'object') {
@@ -27,11 +27,10 @@ export default class Task {
 			this.frequency = 0
 			this.task = task
 		}
-		this.count = 0
 	}
 
 	run(timestamp: Timestamp) {
-		if (timestamp.currentTime >= this.frequency * this.count) {
+		if (timestamp.currentTime % this.frequency > 0) {
 			this.count++
 			this.task({ ...timestamp, count: this.count })
 		}

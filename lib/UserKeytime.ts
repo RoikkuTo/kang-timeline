@@ -3,7 +3,7 @@ import Timestamp from './Timestamp'
 export interface UserKeytime {
 	id: number
 	timestamp: number
-	run: (params: Timestamp) => void
+	task: (params: Timestamp) => void
 }
 
 export default class UserKeytimes {
@@ -27,7 +27,7 @@ export default class UserKeytimes {
 
 	compare(ts: Timestamp) {
 		if (this.list[this.index] && this.list[this.index].timestamp <= ts.currentTime) {
-			this.list[this.index].run(ts)
+			this.list[this.index].task(ts)
 			this.index++
 		}
 	}

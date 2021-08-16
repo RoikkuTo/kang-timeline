@@ -2,9 +2,17 @@
 	"compilerOptions": {
 		"target": "es6",
 		"module": "commonjs",
+		"jsx": "react",
 		"strict": true,
 		"esModuleInterop": true,
 		"skipLibCheck": true,
-		"forceConsistentCasingInFileNames": true
-	}
+		"forceConsistentCasingInFileNames": true,
+		"baseUrl": ".",
+		"paths": {
+			"@/*": ["./*"],
+			"@lib": ["./dist/Timeline"],
+			"@icons": ["./src/icons"]
+		}
+	},
+	"exclude": ["node_modules", "node_modules/**/*", "**/node_modules/*", "trash"]
 }
