@@ -47,7 +47,7 @@ const Range = ({ state, timeline }: { state: [number, React.Dispatch<React.SetSt
 			if (active.current) {
 				active.current = false
 				timeline[prevTState.current]()
-				timeline.setTimestamp(Math.round(ratio * timeline.loop!))
+				timeline.setTimestamp(Math.round(ratio * timeline.max!))
 			}
 		}
 		return () => {
@@ -57,7 +57,7 @@ const Range = ({ state, timeline }: { state: [number, React.Dispatch<React.SetSt
 
 	return (
 		<div ref={node} className="range" onMouseDown={handleMouseDown}>
-			<Track ratio={active.current ? ratio : timestamp / timeline.loop!} />
+			<Track ratio={active.current ? ratio : timestamp / timeline.max!} />
 		</div>
 	)
 }

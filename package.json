@@ -1,7 +1,7 @@
 {
 	"name": "timeline",
 	"version": "1.0.0",
-	"description": "This little project has been made for my personal use but I thougth it could be interesting to share it, so then you can use like a |||||||||||| for another project, may be.",
+	"description": "Timeline is a Javascript Library for the window.requestAnimationFrame() API",
 	"files": [
 		"dist"
 	],
@@ -16,12 +16,13 @@
 	"directories": {
 		"test": "test"
 	},
-	"types": "dist/@types/",
+	"types": "dist/",
 	"scripts": {
-		"dev": "vite --host",
+		"app": "vite --host",
+		"lib": "vite build --mode lib && tsc --project lib",
 		"build": "vite build",
-		"types": "tsc --watch --noEmit",
-		"declare": "tsc --project lib"
+		"preview": "vite preview",
+		"types": "tsc --watch --noEmit"
 	},
 	"repository": {
 		"type": "git",

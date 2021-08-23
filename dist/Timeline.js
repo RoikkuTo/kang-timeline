@@ -5,34 +5,93 @@ import Chain from './Chain';
 import UtilKeytimes from './UtilKeytimes';
 import Timestamp from './Timestamp';
 export default class Timeline {
-    constructor(opts = {}) {
-        this.bank = 0;
+    constructor({ id, speed, task, loop, range } = {}) {
+        var _a;
+        this._id = Date.now();
+        this._range = null;
+        this._state = 'stop';
+        this.taskObj = null;
+        this.bank = null;
         this.initial = 0;
         this.current = 0;
-        /**
-         * The current state of the timeline
-         */
-        this.state = 'stop';
-        const { id, speed: ratio, task, loop /* , range */ } = opts;
-        this.id = (id => {
-            if (id) {
-                if (TimeProvider.checkId(id))
-                    return id;
-                else {
-                    console.error(`ERROR: The "${id}" id has already been defined. (Timeline Library)`);
-                    return Date.now();
-                }
-            }
-            else
-                return Date.now();
-        })(id);
-        this.speed = ratio || 1;
-        this.task = task ? new Task(task) : null;
-        this.loop = loop;
+        this._min = 0;
+        this._max = null;
+        if (id)
+            this.id = id;
+        this.speed = speed || 1;
+        if (task)
+            this.task = task;
+        if (range)
+            this.range = range;
+        this.loop = !!loop;
         this.userKeytimes = new UserKeytimes();
         this.chain = new Chain(this);
         this.utilKeytimes = new UtilKeytimes(this);
+        if (Array.isArray(this._range))
+            this.current = (_a = this._range) === null || _a === void 0 ? void 0 : _a[0];
         TimeProvider.subscribe(this);
+    }
+    /**
+     * The *id* of the timeline
+     *
+     * All Timelines have a unique _id_ which is basically a simple `Date.now()` in milliseconds but you can specify a one.
+     */
+    get id() {
+        return this._id;
+    }
+    set id(id) {
+        // if (id) {
+        if (TimeProvider.checkId(id))
+            this._id = id;
+        else
+            console.error(`ERROR: The "${id}" id has already been defined. (Timeline Library)`);
+        // } else console.error('ERROR: Please specify an id. (Timeline Library)')
+    }
+    /**
+     * The task to be executed by the timeline
+     *
+     * Task is executed at each loop iterration.
+     * It can be a simple function or an object with a function to execute at a given frequency.
+     */
+    get task() {
+        return this._task;
+    }
+    set task(task) {
+        this._task = task;
+        this.taskObj = task ? new Task(task) : null;
+    }
+    /**
+     * The range for the timeline
+     *
+     * A range between which the timeline will be effective, with the first index being the _minimum_ and the second being the _maximum_.
+     * If set as a number, the range become `[0, number]` with 0 as minimum.
+     */
+    get range() {
+        return this._range;
+    }
+    set range(range) {
+        var _a, _b;
+        this._range = range;
+        this._min = Array.isArray(this._range) ? (_a = this._range) === null || _a === void 0 ? void 0 : _a[0] : 0;
+        this._max = Array.isArray(this._range) ? (_b = this._range) === null || _b === void 0 ? void 0 : _b[1] : this._range;
+    }
+    /**
+     * Get the minimum value of the range
+     */
+    get min() {
+        return this._min;
+    }
+    /**
+     * Get the maximum value of the range
+     */
+    get max() {
+        return this._max;
+    }
+    /**
+     * Get the current state of the timeline
+     */
+    get state() {
+        return this._state;
     }
     /**
      * Consume the global timestamp given by the **TimeProvider**
@@ -44,81 +103,34 @@ export default class Timeline {
         this.utilKeytimes.compare(ts);
         this.userKeytimes.compare(ts);
     }
-    /**
-     * Set the id after afterwards
-     * @param id
-     */
-    setId(id) {
-        if (id) {
-            if (TimeProvider.checkId(id))
-                this.id = id;
-            else
-                console.error(`ERROR: The "${id}" id has already been defined. (Timeline Library)`);
-        }
-        else
-            console.error('ERROR: Please specify an id. (Timeline Library)');
-    }
-    /**
-     * Set the ratio afterwards
-     * @param speed
-     */
-    setSpeed(speed) {
-        this.speed = speed;
-    }
-    /**
-     * Set the task afterwards
-     * @param task
-     */
-    setTask(task) {
-        this.task = new Task(task);
-    }
-    /**
-     * Add keytime during which a callback will be executed
-     * @param keytime
-     * @param keytime.timestamp The timestamp which will trigger the callback
-     * @param keytime.callback The callback
-     */
-    addKeytime(keytime) {
-        this.userKeytimes.add(keytime);
-    }
-    /**
-     * Remove a Keytime
-     * @param id
-     */
-    removeKeytime(id) {
-        this.userKeytimes.remove(id);
-    }
-    /**
-     * List all Keytimes
-     * @returns Array of Keytimes
-     */
-    listKeytimes() {
-        return this.userKeytimes.list;
-    }
     controller(timestamp) {
-        if (!this.initial)
-            this.initial = timestamp;
-        switch (this.state) {
+        var _a;
+        this.initial || (this.initial = timestamp);
+        switch (this._state) {
             case 'start':
                 if (this.bank) {
                     this.initial += this.bank;
                     this.bank = null;
                 }
                 this.current = (timestamp - this.initial) * this.speed;
-                this.task && this.task.run(new Timestamp(this.current, timestamp));
-                if (this.loop && this.current >= this.loop)
-                    this.reset().start();
+                this.taskObj && this.taskObj.run(new Timestamp(this.current, timestamp));
+                if (this._range && ((Array.isArray(this._range) && ((_a = this._range) === null || _a === void 0 ? void 0 : _a[1]) <= this.current) || this._range <= this.current)) {
+                    if (this.loop)
+                        this.reset().start();
+                    else
+                        this.stop();
+                }
                 break;
             case 'stop':
                 this.bank = (timestamp - this.initial - this.current) * this.speed;
                 break;
             case 'reset':
-                this.state = 'stop';
+                this._state = 'stop';
                 this.current = 0;
                 this.initial = 0;
                 this.bank = null;
-                if (this.task)
-                    this.task.count = 0;
+                if (this.taskObj)
+                    this.taskObj.count = 0;
                 break;
             default:
                 console.error('Undefined state.');
@@ -131,7 +143,7 @@ export default class Timeline {
                 id: Date.now(),
                 delay,
                 callback: timestamp => {
-                    this.state = name;
+                    this._state = name;
                     resolve(null);
                 }
             };
@@ -169,9 +181,36 @@ export default class Timeline {
      * Delete the timeline
      */
     delete() {
-        TimeProvider.unsubscribe(this.id);
+        TimeProvider.unsubscribe(this._id);
     }
+    /**
+     * Set the timestamp in _milliseconds_
+     * @param timestamp Timestamp in _milliseconds_
+     */
     setTimestamp(timestamp) {
         this.current -= this.current - timestamp;
+    }
+    /**
+     * Add keytime during which a callback will be executed
+     * @param keytime
+     * @param keytime.timestamp The timestamp which will trigger the callback
+     * @param keytime.callback The callback
+     */
+    addKeytime(keytime) {
+        this.userKeytimes.add(keytime);
+    }
+    /**
+     * Remove a Keytime
+     * @param id
+     */
+    removeKeytime(id) {
+        this.userKeytimes.remove(id);
+    }
+    /**
+     * List all Keytimes
+     * @returns Array of Keytimes
+     */
+    listKeytimes() {
+        return this.userKeytimes.list;
     }
 }

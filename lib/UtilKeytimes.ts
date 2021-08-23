@@ -11,7 +11,6 @@ export default class UtilKeytimes {
 	context: Timeline
 	temp: number | null = null
 	keytime: UtilKeytime | null = null
-	initial: number = 0
 	timestamp: number = 0
 
 	constructor(context: Timeline) {

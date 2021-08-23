@@ -35,7 +35,7 @@ const Btn = ({ opts }: { opts: toggleBtnOpts | toggleBtnOpts[] }) => {
 
 const Speed = ({ timeline }: { timeline: Timeline }) => {
 	const handleChange = useCallback(e => {
-		timeline.setSpeed(Number(e.target.value))
+		timeline.speed = Number(e.target.value)
 	}, [])
 
 	return (
@@ -103,7 +103,13 @@ const Buttons = ({ state, timeline }: { state: [number, React.Dispatch<React.Set
 						}
 					]}
 				/>
-				<Btn opts={{ className: 'restart', icon: restart, callback: () => timeline.reset().start() }} />
+				<Btn
+					opts={{
+						className: 'restart',
+						icon: restart,
+						callback: () => timeline.reset()[timeline.state](0, () => state[1](0))
+					}}
+				/>
 				<Speed timeline={timeline} />
 			</div>
 			<Timestamp timestamp={state[0]} />

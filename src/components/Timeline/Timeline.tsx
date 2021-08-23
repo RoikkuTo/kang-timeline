@@ -1,31 +1,30 @@
-import React, { useEffect, useState } from 'react'
-import Buttons from '../Buttons/Buttons'
-import Range from '../Range/Range'
+import React, { useEffect, useRef, useState } from 'react'
+import Buttons from './Buttons/Buttons'
+import Range from './Range/Range'
 
-import Timeline from '@lib'
+import Timeline, { TimelineOpts } from '@lib'
 
 import './style.scss'
 
-const timeline = new Timeline({ loop: 3600 * 1000 })
-
-const TimelineCard = () => {
+const TimelineCard = ({ opts }: { opts?: TimelineOpts }) => {
 	const [val, setVal] = useState(0)
+	const timeline = useRef(new Timeline(opts || { range: 60000, loop: true }))
 
 	useEffect(() => {
-		timeline.setTask({
+		timeline.current.task = {
 			frequency: 100,
 			run: ({ currentTime }) => setVal(currentTime)
-		})
-		timeline.start()
+		}
+		timeline.current.start()
 		return () => {
-			timeline.delete()
+			timeline.current.delete()
 		}
 	}, [])
 
 	return (
 		<div className="timeline">
-			<Buttons state={[val, setVal]} timeline={timeline} />
-			<Range state={[val, setVal]} timeline={timeline} />
+			<Buttons state={[val, setVal]} timeline={timeline.current} />
+			<Range state={[val, setVal]} timeline={timeline.current} />
 		</div>
 	)
 }

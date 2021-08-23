@@ -2,7 +2,6 @@ export default class UtilKeytimes {
     constructor(context) {
         this.temp = null;
         this.keytime = null;
-        this.initial = 0;
         this.timestamp = 0;
         this.context = context;
     }

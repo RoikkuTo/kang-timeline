@@ -8,6 +8,9 @@ export default class TimeProvider {
     static start() {
         TimeProvider.requestId = requestAnimationFrame(TimeProvider.loop);
     }
+    static stop() {
+        cancelAnimationFrame(TimeProvider.requestId);
+    }
     static subscribe(subscriber) {
         timeSubscribers.push(subscriber);
     }

@@ -15,6 +15,10 @@ export default class TimeProvider {
 		TimeProvider.requestId = requestAnimationFrame(TimeProvider.loop)
 	}
 
+	static stop() {
+		cancelAnimationFrame(TimeProvider.requestId)
+	}
+
 	static subscribe(subscriber: Timeline) {
 		timeSubscribers.push(subscriber)
 	}

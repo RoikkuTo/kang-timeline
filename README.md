@@ -23,7 +23,7 @@ import Timeline from 'timeline'
 Or via the exposed varible umd :
 
 ```html
-<script src="/path/to/timeline.umd.js"></script>
+<script src="/path/to/timeline.min.js"></script>
 ```
 
 ```javascript
@@ -116,9 +116,9 @@ const timer = new Timeline({ speed: 0.5 }))
 
 ### `task`
 
-| Name | Type                 | default |
-| ---- | -------------------- | ------- |
-| task | `Function \| Object` | `null`  |
+| Name | Type                         | default |
+| ---- | ---------------------------- | ------- |
+| task | `Function \| Object \| null` | `null`  |
 
 Task is executed at each loop iterration. It can be a simple function or an object with a function to execute at a given frequency.
 
@@ -139,7 +139,15 @@ const timer = new Timeline({
 }))
 ```
 
-As you can see, you can retrive the current timestamp and other informations about your Timeline as the argument descibed below.
+As you can see, you can retrive the current timestamp and other informations about your Timeline as the argument described [further below](#the-timestamp-object-timestamp).
+
+### `range`
+
+| Name  | Type                                 | default |
+| ----- | ------------------------------------ | ------- |
+| range | `number \| [number, number] \| null` | `null`  |
+
+A range between which the timeline will be effective, with the first index being the _minimum_ and the second being the _maximum_. If set as a number, the range become `[0, number]` with 0 as minimum.
 
 # The Timestamp object `Timestamp`
 

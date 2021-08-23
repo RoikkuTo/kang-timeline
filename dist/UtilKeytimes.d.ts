@@ -9,7 +9,6 @@ export default class UtilKeytimes {
     context: Timeline;
     temp: number | null;
     keytime: UtilKeytime | null;
-    initial: number;
     timestamp: number;
     constructor(context: Timeline);
     compare(ts: Timestamp): void;
