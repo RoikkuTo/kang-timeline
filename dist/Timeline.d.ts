@@ -37,17 +37,14 @@ export interface TimelineOpts {
 interface SyncControl {
     /**
      * Start the timeline synchronously, which is faster and much precise.
-     * @returns Collection of all sync methods
      */
     start(callback?: () => void): void;
     /**
      * Stop the timeline synchronously, which is faster and much precise.
-     * @returns Collection of all sync methods
      */
     stop(callback?: () => void): void;
     /**
      * Rester the timeline synchronously, which is faster and much precise.
-     * @returns Collection of all sync methods
      */
     reset(callback?: () => void): void;
 }
@@ -77,6 +74,7 @@ export default class Timeline {
      * Loop the animation after a given duration
      */
     loop: boolean;
+    isFinished: boolean;
     /**
      * The *id* of the timeline
      *

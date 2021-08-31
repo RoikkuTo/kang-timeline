@@ -14,21 +14,27 @@ interface toggleBtnOpts {
 	callback: Timeline['start'] | Timeline['stop'] | ((...params: any[]) => void)
 }
 
-const Btn = ({ opts, idx }: { opts: toggleBtnOpts | toggleBtnOpts[]; idx?: number }) => {
-	const [n, setN] = useState(idx || 0)
+const Btn = ({
+	opts,
+	idx
+}: {
+	opts: toggleBtnOpts | toggleBtnOpts[]
+	idx?: React.MutableRefObject<React.Dispatch<React.SetStateAction<number>>>
+}) => {
+	const [n, setN] = useState(0)
 
 	const handleClick = useCallback(() => {
 		if (Array.isArray(opts)) {
 			opts[n].callback()
-			opts.length > 1 && setN(prev => prev++)
+			opts.length > 1 && setN(prev => (prev === opts.length - 1 ? 0 : prev++))
 		} else {
 			opts.callback()
 		}
 	}, [n, opts])
 
 	useEffect(() => {
-		idx !== undefined && setN(idx)
-	}, [idx])
+		if (idx) idx.current = setN
+	}, [])
 
 	return (
 		<div className={`button simple ${Array.isArray(opts) ? opts[n].className : opts.className}`} onClick={handleClick}>
@@ -98,10 +104,10 @@ const Buttons = ({
 	timeline: Timeline
 	deleteTl: () => void
 }) => {
-	const [finish, setFinish] = useState(0)
+	const idx = useRef<React.Dispatch<React.SetStateAction<number>>>(() => {})
 
 	useEffect(() => {
-		const listener = () => setFinish(1)
+		const listener = () => idx.current(1)
 		timeline.onFinish(listener)
 		return () => {
 			timeline.offFinish(listener)
@@ -121,10 +127,16 @@ const Buttons = ({
 						{
 							className: 'start',
 							icon: start,
-							callback: () => timeline.start()
+							callback: () => {
+								if (timeline.isFinished) {
+									timeline.reset().start()
+								} else {
+									timeline.start()
+								}
+							}
 						}
 					]}
-					idx={finish}
+					idx={idx}
 				/>
 				<Btn
 					opts={{

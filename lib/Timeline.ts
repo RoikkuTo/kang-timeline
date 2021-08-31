@@ -46,17 +46,14 @@ export interface TimelineOpts {
 interface SyncControl {
 	/**
 	 * Start the timeline synchronously, which is faster and much precise.
-	 * @returns Collection of all sync methods
 	 */
 	start(callback?: () => void): void
 	/**
 	 * Stop the timeline synchronously, which is faster and much precise.
-	 * @returns Collection of all sync methods
 	 */
 	stop(callback?: () => void): void
 	/**
 	 * Rester the timeline synchronously, which is faster and much precise.
-	 * @returns Collection of all sync methods
 	 */
 	reset(callback?: () => void): void
 }
@@ -80,7 +77,6 @@ export default class Timeline {
 
 	private _min: number = 0
 	private _max: number | null = null
-
 	private finishHandlers: (() => void)[] = []
 
 	/**
@@ -95,6 +91,8 @@ export default class Timeline {
 	 * Loop the animation after a given duration
 	 */
 	loop: boolean
+
+	isFinished: boolean = false
 
 	/**
 	 * The *id* of the timeline
@@ -206,6 +204,7 @@ export default class Timeline {
 					this.initial += this.bank
 					this.bank = null
 				}
+				if (this.isFinished) this.isFinished = false
 				this.current = (timestamp - this.initial) * this.speed
 				this.taskObj && this.taskObj.run(new Timestamp(this.current, timestamp))
 				if (this._range && ((Array.isArray(this._range) && this._range?.[1] <= this.current) || this._range <= this.current)) {
@@ -216,6 +215,7 @@ export default class Timeline {
 						this.sync.reset()
 						this.start()
 					} else {
+						this.isFinished = true
 						this.sync.stop(end)
 					}
 				}

@@ -17,6 +17,7 @@ export default class Timeline {
         this._min = 0;
         this._max = null;
         this.finishHandlers = [];
+        this.isFinished = false;
         /**
          * Synchronous control methods
          *
@@ -138,6 +139,8 @@ export default class Timeline {
                     this.initial += this.bank;
                     this.bank = null;
                 }
+                if (this.isFinished)
+                    this.isFinished = false;
                 this.current = (timestamp - this.initial) * this.speed;
                 this.taskObj && this.taskObj.run(new Timestamp(this.current, timestamp));
                 if (this._range && ((Array.isArray(this._range) && ((_a = this._range) === null || _a === void 0 ? void 0 : _a[1]) <= this.current) || this._range <= this.current)) {
@@ -150,6 +153,7 @@ export default class Timeline {
                         this.start();
                     }
                     else {
+                        this.isFinished = true;
                         this.sync.stop(end);
                     }
                 }
