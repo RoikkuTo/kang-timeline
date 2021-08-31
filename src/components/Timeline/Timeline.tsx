@@ -5,7 +5,7 @@ import Range from './Range/Range'
 import Timeline, { TimelineOpts } from '@lib'
 
 import style from './style.module.scss'
-import PopAnim from '../PopAnim/PopAnim'
+import PopAnim from './PopAnim/PopAnim'
 
 const TimelineCard = ({ opts }: { opts?: TimelineOpts }) => {
 	const [val, setVal] = useState(0)

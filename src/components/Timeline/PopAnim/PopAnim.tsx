@@ -17,7 +17,7 @@ export default function PopAnim({ visible, children }: { visible: boolean; child
 	}, [visible])
 
 	return (
-		<div ref={node} className={style.div} style={visibleStyle}>
+		<div ref={node} className={style.popanim} style={visibleStyle}>
 			{children}
 		</div>
 	)
