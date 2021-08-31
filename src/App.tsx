@@ -1,12 +1,11 @@
 import React from 'react'
 import './App.css'
-
-import TimelineCard from './components/Timeline/Timeline'
+import Descr from './components/Descr/Descr'
 
 function App() {
 	return (
 		<div className="App">
-			<TimelineCard />
+			<Descr />
 		</div>
 	)
 }

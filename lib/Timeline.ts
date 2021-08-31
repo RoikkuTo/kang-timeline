@@ -43,6 +43,24 @@ export interface TimelineOpts {
 	loop?: boolean
 }
 
+interface SyncControl {
+	/**
+	 * Start the timeline synchronously, which is faster and much precise.
+	 * @returns Collection of all sync methods
+	 */
+	start(callback?: () => void): void
+	/**
+	 * Stop the timeline synchronously, which is faster and much precise.
+	 * @returns Collection of all sync methods
+	 */
+	stop(callback?: () => void): void
+	/**
+	 * Rester the timeline synchronously, which is faster and much precise.
+	 * @returns Collection of all sync methods
+	 */
+	reset(callback?: () => void): void
+}
+
 export default class Timeline {
 	private _id: NonNullable<TimelineOpts['id']> = Date.now()
 	private _task?: NonNullable<TimelineOpts['task']> | null
@@ -62,6 +80,8 @@ export default class Timeline {
 
 	private _min: number = 0
 	private _max: number | null = null
+
+	private finishHandlers: (() => void)[] = []
 
 	/**
 	 * The speed of the timeline
@@ -141,6 +161,13 @@ export default class Timeline {
 		return this._state
 	}
 
+	/**
+	 * Get the current timestamp of the timeline
+	 */
+	get currentTimestamp() {
+		return this.current
+	}
+
 	constructor({ id, speed, task, loop, range }: TimelineOpts = {}) {
 		if (id) this.id = id
 		this.speed = speed || 1
@@ -182,8 +209,15 @@ export default class Timeline {
 				this.current = (timestamp - this.initial) * this.speed
 				this.taskObj && this.taskObj.run(new Timestamp(this.current, timestamp))
 				if (this._range && ((Array.isArray(this._range) && this._range?.[1] <= this.current) || this._range <= this.current)) {
-					if (this.loop) this.reset().start()
-					else this.stop()
+					const end = () => {
+						for (const handler of this.finishHandlers) handler()
+					}
+					if (this.loop) {
+						this.sync.reset()
+						this.start()
+					} else {
+						this.sync.stop(end)
+					}
 				}
 				break
 
@@ -217,6 +251,26 @@ export default class Timeline {
 			}
 		}
 		return this.chain.add(req.bind(this), cb)
+	}
+
+	/**
+	 * Synchronous control methods
+	 *
+	 * Faster and much MUCH more precise controls but less options.
+	 */
+	sync: SyncControl = {
+		start: callback => {
+			this._state = 'start'
+			callback?.()
+		},
+		stop: callback => {
+			this._state = 'stop'
+			callback?.()
+		},
+		reset: callback => {
+			this._state = 'reset'
+			callback?.()
+		}
 	}
 
 	/**
@@ -257,7 +311,7 @@ export default class Timeline {
 	}
 
 	/**
-	 * Set the timestamp in _milliseconds_
+	 * Sets the timestamp in _milliseconds_
 	 * @param timestamp Timestamp in _milliseconds_
 	 */
 	setTimestamp(timestamp: number) {
@@ -265,7 +319,7 @@ export default class Timeline {
 	}
 
 	/**
-	 * Add keytime during which a callback will be executed
+	 * Adds keytime during which a callback will be executed
 	 * @param keytime
 	 * @param keytime.timestamp The timestamp which will trigger the callback
 	 * @param keytime.callback The callback
@@ -275,7 +329,7 @@ export default class Timeline {
 	}
 
 	/**
-	 * Remove a Keytime
+	 * Removes a Keytime
 	 * @param id
 	 */
 	removeKeytime(id: UtilKeytime['id']) {
@@ -288,5 +342,22 @@ export default class Timeline {
 	 */
 	listKeytimes() {
 		return this.userKeytimes.list
+	}
+
+	/**
+	 * Appends an event listener to the _finish_ event, when the timeline reach its range.
+	 * @param listener
+	 */
+	onFinish(listener: () => void) {
+		this.finishHandlers.push(listener)
+	}
+
+	/**
+	 * Removes an event listener to the _finish_ event, when the timeline reach its range.
+	 * @param listener
+	 */
+	offFinish(listener: () => void) {
+		const idx = this.finishHandlers.indexOf(listener)
+		if (idx !== -1) this.finishHandlers.splice(idx, 1)
 	}
 }

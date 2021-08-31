@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import './style.scss'
 
 import start from '@icons/start.svg'
@@ -14,17 +14,21 @@ interface toggleBtnOpts {
 	callback: Timeline['start'] | Timeline['stop'] | ((...params: any[]) => void)
 }
 
-const Btn = ({ opts }: { opts: toggleBtnOpts | toggleBtnOpts[] }) => {
-	const [n, setN] = useState(0)
+const Btn = ({ opts, idx }: { opts: toggleBtnOpts | toggleBtnOpts[]; idx?: number }) => {
+	const [n, setN] = useState(idx || 0)
 
 	const handleClick = useCallback(() => {
 		if (Array.isArray(opts)) {
 			opts[n].callback()
-			opts.length > 1 && setN(prev => (prev ? 0 : 1))
+			opts.length > 1 && setN(prev => prev++)
 		} else {
 			opts.callback()
 		}
 	}, [n, opts])
+
+	useEffect(() => {
+		idx !== undefined && setN(idx)
+	}, [idx])
 
 	return (
 		<div className={`button simple ${Array.isArray(opts) ? opts[n].className : opts.className}`} onClick={handleClick}>
@@ -85,7 +89,25 @@ const Timestamp = ({ timestamp }: { timestamp: number }) => {
 	)
 }
 
-const Buttons = ({ state, timeline }: { state: [number, React.Dispatch<React.SetStateAction<number>>]; timeline: Timeline }) => {
+const Buttons = ({
+	state,
+	timeline,
+	deleteTl
+}: {
+	state: [number, React.Dispatch<React.SetStateAction<number>>]
+	timeline: Timeline
+	deleteTl: () => void
+}) => {
+	const [finish, setFinish] = useState(0)
+
+	useEffect(() => {
+		const listener = () => setFinish(1)
+		timeline.onFinish(listener)
+		return () => {
+			timeline.offFinish(listener)
+		}
+	}, [])
+
 	return (
 		<div className="buttons">
 			<div className="left-btns">
@@ -102,6 +124,7 @@ const Buttons = ({ state, timeline }: { state: [number, React.Dispatch<React.Set
 							callback: () => timeline.start()
 						}
 					]}
+					idx={finish}
 				/>
 				<Btn
 					opts={{
@@ -113,7 +136,7 @@ const Buttons = ({ state, timeline }: { state: [number, React.Dispatch<React.Set
 				<Speed timeline={timeline} />
 			</div>
 			<Timestamp timestamp={state[0]} />
-			<Btn opts={{ className: 'delete', icon: del, callback: () => console.log('delete (placeholder)') }} />
+			<Btn opts={{ className: 'delete', icon: del, callback: deleteTl }} />
 		</div>
 	)
 }

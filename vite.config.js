@@ -25,6 +25,7 @@ export default defineConfig(({ command, mode }) => {
 	} else {
 		return {
 			root: '.',
+			base: './',
 			build: {
 				outDir: 'demo'
 			},

@@ -22,7 +22,8 @@
 		"lib": "vite build --mode lib && tsc --project lib",
 		"build": "vite build",
 		"preview": "vite preview",
-		"types": "tsc --watch --noEmit"
+		"types": "tsc --watch --noEmit",
+		"test": "jest"
 	},
 	"repository": {
 		"type": "git",
@@ -36,12 +37,18 @@
 	},
 	"homepage": "https://github.com/RoikkuTo/laughing-eureka#readme",
 	"devDependencies": {
+		"@babel/core": "^7.15.0",
+		"@babel/preset-env": "^7.15.0",
+		"@babel/preset-typescript": "^7.15.0",
+		"@types/jest": "^27.0.1",
 		"@types/react": "^17.0.17",
 		"@types/react-dom": "^17.0.9",
 		"@typescript-eslint/eslint-plugin": "^4.29.0",
 		"@typescript-eslint/parser": "^4.29.0",
+		"babel-jest": "^27.0.6",
 		"eslint": "^7.32.0",
 		"eslint-plugin-react": "^7.24.0",
+		"jest": "^27.0.6",
 		"vite": "^2.4.4"
 	},
 	"dependencies": {

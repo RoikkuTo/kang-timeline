@@ -16,6 +16,26 @@ export default class Timeline {
         this.current = 0;
         this._min = 0;
         this._max = null;
+        this.finishHandlers = [];
+        /**
+         * Synchronous control methods
+         *
+         * Faster and much MUCH more precise controls but less options.
+         */
+        this.sync = {
+            start: callback => {
+                this._state = 'start';
+                callback === null || callback === void 0 ? void 0 : callback();
+            },
+            stop: callback => {
+                this._state = 'stop';
+                callback === null || callback === void 0 ? void 0 : callback();
+            },
+            reset: callback => {
+                this._state = 'reset';
+                callback === null || callback === void 0 ? void 0 : callback();
+            }
+        };
         if (id)
             this.id = id;
         this.speed = speed || 1;
@@ -94,6 +114,12 @@ export default class Timeline {
         return this._state;
     }
     /**
+     * Get the current timestamp of the timeline
+     */
+    get currentTimestamp() {
+        return this.current;
+    }
+    /**
      * Consume the global timestamp given by the **TimeProvider**
      * @param timestamp
      */
@@ -115,10 +141,17 @@ export default class Timeline {
                 this.current = (timestamp - this.initial) * this.speed;
                 this.taskObj && this.taskObj.run(new Timestamp(this.current, timestamp));
                 if (this._range && ((Array.isArray(this._range) && ((_a = this._range) === null || _a === void 0 ? void 0 : _a[1]) <= this.current) || this._range <= this.current)) {
-                    if (this.loop)
-                        this.reset().start();
-                    else
-                        this.stop();
+                    const end = () => {
+                        for (const handler of this.finishHandlers)
+                            handler();
+                    };
+                    if (this.loop) {
+                        this.sync.reset();
+                        this.start();
+                    }
+                    else {
+                        this.sync.stop(end);
+                    }
                 }
                 break;
             case 'stop':
@@ -184,14 +217,14 @@ export default class Timeline {
         TimeProvider.unsubscribe(this._id);
     }
     /**
-     * Set the timestamp in _milliseconds_
+     * Sets the timestamp in _milliseconds_
      * @param timestamp Timestamp in _milliseconds_
      */
     setTimestamp(timestamp) {
         this.current -= this.current - timestamp;
     }
     /**
-     * Add keytime during which a callback will be executed
+     * Adds keytime during which a callback will be executed
      * @param keytime
      * @param keytime.timestamp The timestamp which will trigger the callback
      * @param keytime.callback The callback
@@ -200,7 +233,7 @@ export default class Timeline {
         this.userKeytimes.add(keytime);
     }
     /**
-     * Remove a Keytime
+     * Removes a Keytime
      * @param id
      */
     removeKeytime(id) {
@@ -212,5 +245,21 @@ export default class Timeline {
      */
     listKeytimes() {
         return this.userKeytimes.list;
+    }
+    /**
+     * Appends an event listener to the _finish_ event, when the timeline reach its range.
+     * @param listener
+     */
+    onFinish(listener) {
+        this.finishHandlers.push(listener);
+    }
+    /**
+     * Removes an event listener to the _finish_ event, when the timeline reach its range.
+     * @param listener
+     */
+    offFinish(listener) {
+        const idx = this.finishHandlers.indexOf(listener);
+        if (idx !== -1)
+            this.finishHandlers.splice(idx, 1);
     }
 }

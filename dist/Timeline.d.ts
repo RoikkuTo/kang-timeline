@@ -34,6 +34,23 @@ export interface TimelineOpts {
      */
     loop?: boolean;
 }
+interface SyncControl {
+    /**
+     * Start the timeline synchronously, which is faster and much precise.
+     * @returns Collection of all sync methods
+     */
+    start(callback?: () => void): void;
+    /**
+     * Stop the timeline synchronously, which is faster and much precise.
+     * @returns Collection of all sync methods
+     */
+    stop(callback?: () => void): void;
+    /**
+     * Rester the timeline synchronously, which is faster and much precise.
+     * @returns Collection of all sync methods
+     */
+    reset(callback?: () => void): void;
+}
 export default class Timeline {
     private _id;
     private _task?;
@@ -48,6 +65,7 @@ export default class Timeline {
     private current;
     private _min;
     private _max;
+    private finishHandlers;
     /**
      * The speed of the timeline
      *
@@ -94,6 +112,10 @@ export default class Timeline {
      * Get the current state of the timeline
      */
     get state(): "start" | "stop" | "reset";
+    /**
+     * Get the current timestamp of the timeline
+     */
+    get currentTimestamp(): number;
     constructor({ id, speed, task, loop, range }?: TimelineOpts);
     /**
      * Consume the global timestamp given by the **TimeProvider**
@@ -102,6 +124,12 @@ export default class Timeline {
     consume(timestamp: number): void;
     private controller;
     private request;
+    /**
+     * Synchronous control methods
+     *
+     * Faster and much MUCH more precise controls but less options.
+     */
+    sync: SyncControl;
     /**
      * Start the timeline
      * @param delay
@@ -128,19 +156,19 @@ export default class Timeline {
      */
     delete(): void;
     /**
-     * Set the timestamp in _milliseconds_
+     * Sets the timestamp in _milliseconds_
      * @param timestamp Timestamp in _milliseconds_
      */
     setTimestamp(timestamp: number): void;
     /**
-     * Add keytime during which a callback will be executed
+     * Adds keytime during which a callback will be executed
      * @param keytime
      * @param keytime.timestamp The timestamp which will trigger the callback
      * @param keytime.callback The callback
      */
     addKeytime(keytime: Omit<UserKeytime, 'id'>): void;
     /**
-     * Remove a Keytime
+     * Removes a Keytime
      * @param id
      */
     removeKeytime(id: UtilKeytime['id']): void;
@@ -149,4 +177,15 @@ export default class Timeline {
      * @returns Array of Keytimes
      */
     listKeytimes(): UserKeytime[];
+    /**
+     * Appends an event listener to the _finish_ event, when the timeline reach its range.
+     * @param listener
+     */
+    onFinish(listener: () => void): void;
+    /**
+     * Removes an event listener to the _finish_ event, when the timeline reach its range.
+     * @param listener
+     */
+    offFinish(listener: () => void): void;
 }
+export {};
