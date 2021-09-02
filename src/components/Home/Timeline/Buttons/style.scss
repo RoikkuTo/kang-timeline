@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap');
+
+.buttons {
+	position: relative;
+	height: 35px;
+	display: flex;
+	justify-content: space-between;
+
+	.left-btns {
+		display: flex;
+		justify-content: space-between;
+		gap: 15px;
+	}
+
+	.timestamp {
+		width: 233px;
+		height: 35px;
+		box-shadow: inset 0px 2px 10px rgba(0, 0, 0, 0.07);
+		border-radius: 25px;
+		display: flex;
+		align-items: center;
+
+		& > div {
+			position: relative;
+			left: 22.5%;
+		}
+	}
+}

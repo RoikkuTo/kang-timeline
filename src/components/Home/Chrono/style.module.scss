@@ -1,0 +1,73 @@
+.chrono {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+}
+
+.chrono-template {
+	.column {
+		margin: 0 0.2em 0 0.2em;
+		color: #aeaeae;
+	}
+}
+
+.container {
+	position: relative;
+	width: 65rem; // 670px
+	display: flex;
+	flex-direction: column;
+	gap: 3rem;
+}
+
+.provider {
+	font-size: 2.5rem;
+}
+
+.main {
+	font-size: 8rem;
+
+	.column {
+		color: #e2e2e2;
+	}
+}
+
+.controls {
+	position: relative;
+	width: 70%;
+	align-self: center;
+	display: flex;
+	justify-content: space-between;
+
+	.btn {
+		position: relative;
+		width: 6.5rem;
+		height: 6.5rem;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		border-radius: 50px;
+		box-shadow: 0px 4px 19px rgba(0, 0, 0, 0.1);
+		cursor: pointer;
+
+		&.simple {
+			background: white;
+
+			img {
+				width: auto;
+				height: 60%;
+			}
+		}
+	}
+}
+
+@media screen and (max-width: 888px) {
+	.controls {
+		width: 80%;
+
+		.btn {
+			width: 9rem;
+			height: 9rem;
+		}
+	}
+}

@@ -1,13 +1,11 @@
 import React from 'react'
 import './App.css'
-import Chrono from './components/Chrono/ChronoTemplate'
-import Descr from './components/Descr'
+import Home from './components/Home/Home'
 
 function App() {
 	return (
 		<div className="App">
-			<Chrono />
-			<Descr />
+			<Home />
 		</div>
 	)
 }

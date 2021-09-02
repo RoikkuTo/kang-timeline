@@ -1,0 +1,17 @@
+.home {
+	display: grid;
+	grid-auto-flow: column;
+	grid-template-columns: 1fr 1fr;
+}
+
+.text {
+	position: relative;
+}
+
+@media screen and (max-width: 888px) {
+	.home {
+		grid-auto-flow: row;
+		grid-template: 1fr 1fr / 65rem;
+		gap: 8rem;
+	}
+}

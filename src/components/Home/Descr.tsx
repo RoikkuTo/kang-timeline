@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { RecordContext } from './Home'
 import TimelineCard from './Timeline/Timeline'
+import style from './style.module.scss'
 
 const Text = () => {
 	return (
-		<div>
+		<div className={style.text}>
 			<h1>Timeline</h1>
 			<p>
 				A JS Library which will allow you to manipulate the <span className="code link">window.requestAnimationFrame</span> API
@@ -13,12 +15,16 @@ const Text = () => {
 }
 
 const CardContainer = () => {
+	const [list] = useContext(RecordContext)
 	return (
 		<div style={{ display: 'grid', gap: '10px' }}>
-			<TimelineCard />
+			{list.map(tl => (
+				<TimelineCard opts={{ range: tl, loop: true }} />
+			))}
+			{/* <TimelineCard />
 			<TimelineCard opts={{ range: 10 * 60 * 1000, loop: true }} />
 			<TimelineCard opts={{ range: 180000, loop: true }} />
-			<TimelineCard opts={{ range: 1000 }} />
+			<TimelineCard opts={{ range: 1000 }} /> */}
 		</div>
 	)
 }
