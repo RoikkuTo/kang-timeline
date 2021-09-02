@@ -210,7 +210,7 @@ timer.addKeytime({
 })
 ```
 
-Usually, the targeted timestamp and the actual execution timestamp have a delta of ||||||||||||||||||
+Usually, the targeted timestamp and the actual execution timestamp have a delta of _17ms_. So you can use those same methods under the **sync** property.
 
 ### `Timestamp.removeKeytimes([ Number | String | Array ])`
 
