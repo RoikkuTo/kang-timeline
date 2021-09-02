@@ -196,7 +196,7 @@ export default class Timeline {
 	}
 
 	private controller(timestamp: number) {
-		this.initial ||= timestamp
+		this.initial ||= timestamp - (Array.isArray(this._range) ? this._range[0] : 0)
 
 		switch (this._state) {
 			case 'start':
@@ -227,7 +227,7 @@ export default class Timeline {
 
 			case 'reset':
 				this._state = 'stop'
-				this.current = 0
+				this.current = Array.isArray(this._range) ? this._range[0] : 0
 				this.initial = 0
 				this.bank = null
 				if (this.taskObj) this.taskObj.count = 0

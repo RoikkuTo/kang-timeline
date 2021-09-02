@@ -4,8 +4,22 @@
 	grid-template-columns: 1fr 1fr;
 }
 
+.desc {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
 .text {
 	position: relative;
+}
+
+.cards {
+	position: absolute;
+	width: 90%;
+	gap: 10px;
+	display: grid;
 }
 
 @media screen and (max-width: 888px) {

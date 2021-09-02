@@ -58,10 +58,7 @@ export default function Controls({ state, timeline }: { state: [number, (nextVal
 					{
 						className: 'record',
 						icon: record,
-						callback: () => {
-							console.log(state[0])
-							addTimeline(minRange.current, state[0])
-						}
+						callback: () => addTimeline(minRange.current, state[0])
 					}
 				]}
 			/>

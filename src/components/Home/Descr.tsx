@@ -17,9 +17,9 @@ const Text = () => {
 const CardContainer = () => {
 	const [list] = useContext(RecordContext)
 	return (
-		<div style={{ display: 'grid', gap: '10px' }}>
-			{list.map(tl => (
-				<TimelineCard opts={{ range: tl, loop: true }} />
+		<div className={style.cards}>
+			{list.map((tl, idx) => (
+				<TimelineCard key={tl.toString()} idx={idx} opts={{ range: tl, loop: true }} />
 			))}
 			{/* <TimelineCard />
 			<TimelineCard opts={{ range: 10 * 60 * 1000, loop: true }} />
@@ -31,7 +31,7 @@ const CardContainer = () => {
 
 export default function Descr() {
 	return (
-		<div>
+		<div className={style.desc}>
 			<Text />
 			<CardContainer />
 		</div>

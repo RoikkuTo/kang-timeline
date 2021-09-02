@@ -32,7 +32,10 @@ export default function Btn({
 	}, [])
 
 	return (
-		<div className={`${style.btn} ${style.simple} ${Array.isArray(opts) ? opts[n].className : opts.className}`} onClick={handleClick}>
+		<div
+			className={`${style.btn} ${style.simple} ${Array.isArray(opts) ? style[opts[n].className] : style[opts.className]}`}
+			onClick={handleClick}
+		>
 			<img src={Array.isArray(opts) ? opts[n].icon : opts.icon} alt="" />
 		</div>
 	)

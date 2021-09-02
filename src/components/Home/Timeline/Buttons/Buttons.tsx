@@ -6,7 +6,7 @@ import stop from '@icons/stop.svg'
 import restart from '@icons/restart_png_2.png'
 import mini_dark_ratio_icon from '@icons/mini_dark_ratio_icon.png'
 import del from '@icons/delete_cross.svg'
-import Timeline from '@/dist/Timeline'
+import Timeline from '@lib'
 import ChronoTemplate from '../../Chrono/ChronoTemplate'
 import Btn from '../../../Utils/Btn'
 import style from './style.module.scss'
@@ -17,11 +17,11 @@ const Speed = ({ timeline }: { timeline: Timeline }) => {
 	}, [])
 
 	return (
-		<div className="button speed">
+		<div className={`${style.btn} ${style.speed}`}>
 			<img src={mini_dark_ratio_icon} alt="" />
 			<input
 				type="number"
-				className="valSpeed"
+				className={`${style.valSpeed}`}
 				step="0.1"
 				min="0"
 				defaultValue="1.0"
@@ -97,7 +97,7 @@ const Buttons = ({
 					opts={{
 						className: 'restart',
 						icon: restart,
-						callback: () => timeline.reset()[timeline.state](0, () => state[1](0))
+						callback: () => timeline.reset()[timeline.state](0, () => state[1](timeline.min))
 					}}
 				/>
 				<Speed timeline={timeline} />
