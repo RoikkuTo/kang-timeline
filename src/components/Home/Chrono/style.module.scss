@@ -58,6 +58,12 @@
 				height: 60%;
 			}
 		}
+
+		&.record {
+			&.inactive {
+				filter: grayscale(1);
+			}
+		}
 	}
 }
 

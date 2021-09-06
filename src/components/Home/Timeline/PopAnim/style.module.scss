@@ -3,3 +3,13 @@
 	width: auto;
 	transition: 0.25s height ease-in-out, 0.25s opacity ease-in-out;
 }
+
+.visible {
+	height: 107px;
+	opacity: 1;
+}
+
+.hidden {
+	height: 0;
+	opacity: 0;
+}

@@ -9,9 +9,9 @@
 		"forceConsistentCasingInFileNames": true,
 		"baseUrl": ".",
 		"paths": {
-			"@/*": ["./*"],
+			"@icons": ["./src/icons"],
 			"@lib": ["./dist/Timeline"],
-			"@icons": ["./src/icons"]
+			"@/*": ["./*"]
 		}
 	},
 	"exclude": ["node_modules", "node_modules/**/*", "**/node_modules/*", "trash"]

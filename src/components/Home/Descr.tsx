@@ -15,10 +15,10 @@ const Text = () => {
 }
 
 const CardContainer = () => {
-	const [list] = useContext(RecordContext)
+	const { timelineList } = useContext(RecordContext)
 	return (
 		<div className={style.cards}>
-			{list.map((tl, idx) => (
+			{timelineList.map((tl, idx) => (
 				<TimelineCard key={tl.toString()} idx={idx} opts={{ range: tl, loop: true }} />
 			))}
 			{/* <TimelineCard />

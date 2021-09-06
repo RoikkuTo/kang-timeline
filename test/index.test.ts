@@ -10,9 +10,9 @@ describe('Timeline', () => {
 			return setTimeout(resolve, duration * 1000)
 		})
 
-	beforeEach(() => {
-		jest.spyOn(window, 'requestAnimationFrame').mockImplementation(cb)
-	})
+	// beforeEach(() => {
+	// 	jest.spyOn(window, 'requestAnimationFrame').mockImplementation(cb)
+	// })
 
 	it('should trigger the finish event', async () => {
 		let bool = false
@@ -30,7 +30,7 @@ describe('Timeline', () => {
 		expect(c).toBe(1)
 	})
 
-	afterEach(() => {
-		window.requestAnimationFrame.mockRestore()
-	})
+	// afterEach(() => {
+	// 	window.requestAnimationFrame.mockRestore()
+	// })
 })

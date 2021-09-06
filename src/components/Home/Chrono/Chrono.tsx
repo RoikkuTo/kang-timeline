@@ -1,46 +1,22 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import ChronoTemplate from './ChronoTemplate'
 import Controls from './Controls'
-
-import Timeline from '@lib'
-
 import style from './style.module.scss'
+import useCanvasTimeline from '../../hooks/useCanvasTimeline'
 
 export default function Chrono() {
-	const [[globalTime, currentTime], setVal] = useState([0, 0])
-	const timeProvider = useRef(new Timeline())
-	const timeline = useRef(new Timeline())
-
-	const setNextVal = useCallback((nextVal: number) => {
-		setVal(prev => [globalTime, nextVal])
-	}, [])
-
-	useEffect(() => {
-		timeProvider.current.task = {
-			frequency: 100,
-			run: ({ globalTime }) => setVal(prev => [globalTime, prev[1]])
-		}
-		timeline.current.task = {
-			frequency: 100,
-			run: ({ currentTime }) => setVal(prev => [prev[0], currentTime])
-		}
-		timeProvider.current.start()
-		return () => {
-			timeProvider.current.delete()
-			timeline.current.delete()
-		}
-	}, [])
+	const canvasText = useCanvasTimeline()
 
 	return (
 		<div className={style.chrono}>
 			<div className={style.container}>
 				<div className={style.provider}>
-					<ChronoTemplate timestamp={globalTime} />
+					<ChronoTemplate canvasTimeline={canvasText} />
 				</div>
 				<div className={style.main}>
-					<ChronoTemplate timestamp={currentTime} />
+					<ChronoTemplate canvasTimeline={canvasText} />
 				</div>
-				<Controls state={[currentTime, setNextVal]} timeline={timeline.current} />
+				<Controls canvasText={canvasText} />
 			</div>
 		</div>
 	)

@@ -13,7 +13,32 @@ const perf = new Timeline({
 	}
 })
 
-perf.start()
+const perf2 = new Timeline({ range: 250 })
+perf2.start()
+const perf3 = new Timeline({ range: 250 })
+perf3.start()
+const perf4 = new Timeline({ range: 250 })
+perf4.start()
+const perf5 = new Timeline({ range: 250 })
+perf5.start()
+const perf6 = new Timeline({ range: 250 })
+perf6.start()
+const perf7 = new Timeline({ range: 250 })
+perf7.start()
+const perf8 = new Timeline({ range: 250 })
+perf8.start()
+const perf9 = new Timeline({ range: 250 })
+perf9.start()
+const perf9 = new Timeline({ range: 250 })
+perf9.start()
+const perf10 = new Timeline({ range: 250 })
+perf10.start()
+const perf11 = new Timeline({ range: 250 })
+perf11.start()
+const perf12 = new Timeline({ range: 250 })
+perf12.start()
+const perf13 = new Timeline({ range: 250 })
+perf13.start()
 
 perf.addKeytime({
 	timestamp: 5000,

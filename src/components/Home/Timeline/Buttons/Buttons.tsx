@@ -10,6 +10,7 @@ import Timeline from '@lib'
 import ChronoTemplate from '../../Chrono/ChronoTemplate'
 import Btn from '../../../Utils/Btn'
 import style from './style.module.scss'
+import useCanvasTimeline from '@/src/components/hooks/useCanvasTimeline'
 
 const Speed = ({ timeline }: { timeline: Timeline }) => {
 	const handleChange = useCallback(e => {
@@ -32,32 +33,24 @@ const Speed = ({ timeline }: { timeline: Timeline }) => {
 	)
 }
 
-const Timestamp = ({ timestamp }: { timestamp: number }) => {
+const Timestamp = ({ canvasTimeline }: { canvasTimeline: ReturnType<typeof useCanvasTimeline> }) => {
 	const bool = useRef(false)
-	const temp = useRef(0)
 
 	const handleClick = () => {
 		bool.current = !bool.current
-		temp.current = timestamp
+		console.log('yop')
 	}
 
 	return (
 		<div className="timestamp" onClick={handleClick}>
-			<ChronoTemplate timestamp={bool.current ? temp.current : timestamp} />
+			<ChronoTemplate canvasTimeline={canvasTimeline} />
 		</div>
 	)
 }
 
-const Buttons = ({
-	state,
-	timeline,
-	deleteTl
-}: {
-	state: [number, React.Dispatch<React.SetStateAction<number>>]
-	timeline: Timeline
-	deleteTl: () => void
-}) => {
+const Buttons = ({ canvasTimeline, deleteTl }: { canvasTimeline: ReturnType<typeof useCanvasTimeline>; deleteTl: () => void }) => {
 	const idx = useRef<React.Dispatch<React.SetStateAction<number>>>(() => {})
+	const { timeline } = canvasTimeline.current
 
 	useEffect(() => {
 		const listener = () => idx.current(1)
@@ -97,12 +90,12 @@ const Buttons = ({
 					opts={{
 						className: 'restart',
 						icon: restart,
-						callback: () => timeline.reset()[timeline.state](0, () => state[1](timeline.min))
+						callback: () => timeline.reset().sync[timeline.state]() // reset canvas
 					}}
 				/>
 				<Speed timeline={timeline} />
 			</div>
-			<Timestamp timestamp={state[0]} />
+			<Timestamp canvasTimeline={canvasTimeline} />
 			<Btn style={style} opts={{ className: 'delete', icon: del, callback: deleteTl }} />
 		</div>
 	)

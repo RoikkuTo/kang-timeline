@@ -18,14 +18,20 @@ export default function Btn({
 }) {
 	const [n, setN] = useState(0)
 
-	const handleClick = useCallback(() => {
+	const handleClick = () => {
 		if (Array.isArray(opts)) {
 			opts[n].callback()
 			opts.length > 1 && setN(prev => (prev === opts.length - 1 ? 0 : prev + 1))
 		} else {
 			opts.callback()
 		}
-	}, [n, opts])
+	}
+
+	const getCssClasses = (cssClasses: string) =>
+		cssClasses
+			.split(' ')
+			.map(name => style[name])
+			.reduce((accumulator, curr) => accumulator + ' ' + curr)
 
 	useEffect(() => {
 		if (idx) idx.current = setN
@@ -33,7 +39,7 @@ export default function Btn({
 
 	return (
 		<div
-			className={`${style.btn} ${style.simple} ${Array.isArray(opts) ? style[opts[n].className] : style[opts.className]}`}
+			className={`${style.btn} ${style.simple} ${Array.isArray(opts) ? getCssClasses(opts[n].className) : getCssClasses(opts.className)}`}
 			onClick={handleClick}
 		>
 			<img src={Array.isArray(opts) ? opts[n].icon : opts.icon} alt="" />

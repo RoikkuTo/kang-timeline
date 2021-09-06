@@ -11,9 +11,7 @@ export default function PopAnim({ visible, children }: { visible: boolean; child
 	}, [])
 
 	useEffect(() => {
-		if (!visible) {
-			setVS({ height: 0, opacity: 0 })
-		}
+		if (!visible) setVS({ height: 0, opacity: 0 })
 	}, [visible])
 
 	return (
