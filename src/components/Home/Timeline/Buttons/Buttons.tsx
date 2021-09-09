@@ -43,7 +43,7 @@ const Timestamp = ({ canvasTimeline }: { canvasTimeline: ReturnType<typeof useCa
 
 	return (
 		<div className="timestamp" onClick={handleClick}>
-			<ChronoTemplate canvasTimeline={canvasTimeline} />
+			<ChronoTemplate canvasTimeline={canvasTimeline} fontSize="2.5rem" />
 		</div>
 	)
 }

@@ -1,7 +1,17 @@
 import React, { useEffect, useRef } from 'react'
 import useCanvasTimeline from '../../hooks/useCanvasTimeline'
 
-export default function ChronoTemplate({ canvasTimeline }: { canvasTimeline: ReturnType<typeof useCanvasTimeline> }) {
+export default function ChronoTemplate({
+	canvasTimeline,
+	fontSize,
+	columnColor,
+	autoplay
+}: {
+	canvasTimeline: ReturnType<typeof useCanvasTimeline>
+	fontSize?: string
+	columnColor?: string
+	autoplay?: boolean
+}) {
 	// const convert = useCallback((currentTime: number) => {
 	// 	const t = new Date(currentTime).toJSON()
 	// 	const regex = /.*T(.*)Z/
@@ -23,7 +33,8 @@ export default function ChronoTemplate({ canvasTimeline }: { canvasTimeline: Ret
 	const canvas = useRef<HTMLCanvasElement>(null)
 
 	useEffect(() => {
-		canvasTimeline.current.setTextCanvas(canvas.current!)
+		canvasTimeline.current.setTextCanvas(canvas.current!, fontSize, columnColor)
+		autoplay && canvasTimeline.current.timeline.sync.start()
 	}, [])
 
 	return <canvas ref={canvas} />

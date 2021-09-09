@@ -5,16 +5,15 @@ import Buttons from './Buttons/Buttons'
 import Range from './Range/Range'
 import PopAnimStatic from './PopAnim/PopAnimStatic'
 import { RecordContext } from '../Home'
-import useRangeTimeline from '../../hooks/useCanvasTimeline'
+import useCanvasTimeline from '../../hooks/useCanvasTimeline'
 
 const TimelineCard = ({ idx, opts }: { idx: number; opts?: TimelineOpts }) => {
 	const { removeTimeline } = useContext(RecordContext)
 	const [visible, setVisible] = useState(true)
-	const canvasTimeline = useRangeTimeline()
-	const timeline = useRef(canvasTimeline.current.timeline)
+	const canvasTimeline = useCanvasTimeline(opts, true)
 
 	const deleteTl = useCallback(() => {
-		timeline.current.delete()
+		canvasTimeline.current.timeline.delete()
 		setVisible(false)
 		setTimeout(() => removeTimeline(idx), 300)
 	}, [idx])
@@ -23,7 +22,7 @@ const TimelineCard = ({ idx, opts }: { idx: number; opts?: TimelineOpts }) => {
 		<PopAnimStatic visible={visible}>
 			<div className={style.container}>
 				<Buttons canvasTimeline={canvasTimeline} deleteTl={deleteTl} />
-				<Range canvasTimeline={canvasTimeline} />
+				{/* <Range canvasTimeline={canvasTimeline} /> */}
 			</div>
 		</PopAnimStatic>
 	)

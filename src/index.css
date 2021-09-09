@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
 
 html {
@@ -7,7 +8,7 @@ html {
 
 body {
 	margin: 0;
-	background: linear-gradient(180deg, transparent 0%, #f5f1de 100%) no-repeat; /*rgb(32, 32, 32)*/
+	background: /* linear-gradient(180deg, transparent 0%, #f5f1de 100%) no-repeat; */ rgb(32, 32, 32);
 	font-family: 'Libre Baskerville', serif;
 	/* font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',

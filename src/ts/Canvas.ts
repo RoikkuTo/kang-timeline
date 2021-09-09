@@ -14,8 +14,8 @@ export default class Canvas {
 		return this._timeline
 	}
 
-	setTextCanvas(c: HTMLCanvasElement) {
-		this._textCanvas = new DrawText(c)
+	setTextCanvas(c: HTMLCanvasElement, fontSize?: string, columnColor?: string) {
+		this._textCanvas = new DrawText(c, fontSize, columnColor)
 	}
 	get textCanvas() {
 		return this._textCanvas
@@ -28,7 +28,7 @@ export default class Canvas {
 		return this._rangeCanvas
 	}
 
-	constructor(opts?: TimelineOpts) {
+	constructor(opts?: TimelineOpts, autoplay?: boolean) {
 		this._timeline = new Timeline({
 			...opts,
 			task: ({ globalTime, currentTime }) => {
@@ -36,5 +36,7 @@ export default class Canvas {
 				this.rangeCanvas?.draw(globalTime, currentTime)
 			}
 		})
+		console.log(autoplay)
+		if (autoplay) this._timeline.sync.start()
 	}
 }

@@ -61,7 +61,7 @@ const Range = ({ canvasTimeline }: { canvasTimeline: ReturnType<typeof useCanvas
 	const handleMouseDown = useCallback(e => {}, [])
 
 	useEffect(() => {
-		canvasTimeline.current.setTextCanvas(canvas.current!)
+		canvasTimeline.current.setRangeCanvas(canvas.current!)
 	}, [])
 
 	return (
