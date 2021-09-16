@@ -244,7 +244,7 @@ export default class Timeline {
 			this.utilKeytimes.keytime = {
 				id: Date.now(),
 				delay,
-				callback: timestamp => {
+				callback: () => {
 					this._state = name
 					resolve(null)
 				}

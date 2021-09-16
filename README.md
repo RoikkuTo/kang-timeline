@@ -4,7 +4,7 @@
 
 ### Presentation
 
-Timeline is a Javascript Library for the [`window.requestAnimationFrame()`](https://developer.mozilla.org/fr/docs/Web/API/Window/requestAnimationFrame) API. It provides some Objects which can give you more controle on the recursives calls made by a `requestAnimationFrame` (or _rAF_ for short) loop.
+Timeline is a Javascript Library for the [`window.requestAnimationFrame()`](https://developer.mozilla.org/fr/docs/Web/API/Window/requestAnimationFrame) API. It provides some classes which can give you more controle on the recursives calls made by a `requestAnimationFrame` (or _rAF_ for short) loop.
 
 ### Installation
 
@@ -20,25 +20,24 @@ You can import the library as an es module :
 import Timeline from 'timeline'
 ```
 
-Or via the exposed varible umd :
+Or via the exposed varible `Timeline` :
 
 ```html
 <script src="/path/to/timeline.min.js"></script>
 ```
 
 ```javascript
-const { Timeline } = umd
 const timer = new Timeline()
 ```
 
-# Objects and Methods
+# Classes and Methods
 
 -   **[The Provider `TimeProvider`](#the-provider-timeprovider)**
--   **[The Timeline object `new Timeline()`](#the-timeline-object-new-timeline)**
+-   **[The Timeline class `new Timeline()`](#the-timeline-class-new-timeline)**
     -   [`id`](#id)
     -   [`speed`](#speed)
     -   [`task`](#task)
--   **[The Timestamp object `Timestamp`](#the-timestamp-object-timestamp)**
+-   **[The Timestamp class `Timestamp`](#the-timestamp-class-timestamp)**
 -   **[Control Methods](#control-methods)**
 -   **[Key Times methods](#key-times-methods)**
     -   [`Timestamp.addKeytime([ Object | Array ])`]()
@@ -61,7 +60,7 @@ const callback = ts => {
 const loop = window.requestAnimationFrame(callback)
 ```
 
-All methods are static and so utilitary. Using `TimeProvider` can compromise your system. For using the object, you need to create a new **Timeline**.
+All methods are static and so utilitary. To consume the `TimeProvider`, you need to create a new **Timeline**.
 
 | Methods   | Description                                           |
 | --------- | ----------------------------------------------------- |
@@ -69,9 +68,9 @@ All methods are static and so utilitary. Using `TimeProvider` can compromise you
 | start     | Start the loop                                        |
 | loop      | The loop callback                                     |
 
-# The Timeline object `new Timeline()`
+# The Timeline class `new Timeline()`
 
-The Timeline object is actually a subscriber to the `TimeProvider`. All Timelines share the same loop provided by the TimeProvider Object but also have their own current timestamp.
+The Timeline class is actually a subscriber to the `TimeProvider`. All Timelines share the same loop provided by the TimeProvider class but also have their own current timestamp.
 
 You can add some options to your Timeline by passing an object as argument, or by setting those options afterward via methods.
 
@@ -139,7 +138,7 @@ const timer = new Timeline({
 }))
 ```
 
-As you can see, you can retrive the current timestamp and other informations about your Timeline as the argument described [further below](#the-timestamp-object-timestamp).
+As you can see, you can retrive the current timestamp and other informations about your Timeline as the argument described [further below](#the-timestamp-class-timestamp).
 
 ### `range`
 
@@ -149,7 +148,7 @@ As you can see, you can retrive the current timestamp and other informations abo
 
 A range between which the timeline will be effective, with the first index being the _minimum_ and the second being the _maximum_. If set as a number, the range become `[0, number]` with 0 as minimum.
 
-# The Timestamp object `Timestamp`
+# The Timestamp class `Timestamp`
 
 Because each Timeline are based on a provided time, you can access to some informations about your Timeline throught the unique parameter of a task.
 
@@ -184,6 +183,8 @@ timer.reset(1000)
 timer.start().stop(5000).reset(1000)
 ```
 
+Usually, the targeted timestamp and the actual execution timestamp have a delta of _17ms_. So you can use those same methods under the **sync** property.
+
 # Key Times methods
 
 ### `Timestamp.addKeytime([ Object | Array ])`
@@ -209,8 +210,6 @@ timer.addKeytime({
   }
 })
 ```
-
-Usually, the targeted timestamp and the actual execution timestamp have a delta of _17ms_. So you can use those same methods under the **sync** property.
 
 ### `Timestamp.removeKeytimes([ Number | String | Array ])`
 

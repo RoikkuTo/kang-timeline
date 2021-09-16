@@ -69,7 +69,7 @@ const Buttons = ({ canvasTimeline, deleteTl }: { canvasTimeline: ReturnType<type
 						{
 							className: 'stop',
 							icon: stop,
-							callback: () => timeline.stop()
+							callback: () => timeline.sync.stop()
 						},
 						{
 							className: 'start',
@@ -78,7 +78,7 @@ const Buttons = ({ canvasTimeline, deleteTl }: { canvasTimeline: ReturnType<type
 								if (timeline.isFinished && timeline.max && timeline.currentTimestamp >= timeline.max) {
 									timeline.reset().start()
 								} else {
-									timeline.start()
+									timeline.sync.start()
 								}
 							}
 						}
