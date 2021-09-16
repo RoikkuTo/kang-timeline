@@ -16,7 +16,7 @@ export const RecordContext = React.createContext<Ctx>({
 })
 
 export default function Home() {
-	const [timelineList, setTimelineList] = useState<[number, number][]>([])
+	const [timelineList, setTimelineList] = useState<[number, number][]>([[0, 5000]])
 
 	const addTimeline = useCallback((minRange, maxRange) => {
 		if (minRange !== 0 && maxRange !== 0) setTimelineList(prev => [...prev, [minRange, maxRange]])

@@ -22,7 +22,7 @@ const TimelineCard = ({ idx, opts }: { idx: number; opts?: TimelineOpts }) => {
 		<PopAnimStatic visible={visible}>
 			<div className={style.container}>
 				<Buttons canvasTimeline={canvasTimeline} deleteTl={deleteTl} />
-				{/* <Range canvasTimeline={canvasTimeline} /> */}
+				<Range canvasTimeline={canvasTimeline} />
 			</div>
 		</PopAnimStatic>
 	)

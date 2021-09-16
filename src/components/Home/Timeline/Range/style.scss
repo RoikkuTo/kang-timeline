@@ -1,6 +1,12 @@
 .range {
 	position: relative;
 	cursor: pointer;
+
+	canvas {
+		position: relative;
+		width: 100%;
+		height: 45px;
+	}
 }
 
 .track {

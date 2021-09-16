@@ -1,21 +1,22 @@
+import Timeline from '@lib'
+
 export default class DrawText {
 	fontSize: string = ''
 	columnColor: string = ''
 
-	private _canvas: HTMLCanvasElement | null = null
-	private ctx: CanvasRenderingContext2D | null = null
+	timeline: Timeline
+
+	private _canvas!: HTMLCanvasElement
+	private ctx!: CanvasRenderingContext2D
 	private gap = 10
 	private currTextPos = 0
 	private textHeight = 0
 
 	set textCanvas(c) {
-		if (c) {
-			this._canvas = c
-			this._canvas.width = this._canvas.clientWidth
-			this._canvas.height = parseFloat(this.fontSize)
-			this.ctx = this._canvas.getContext('2d')!
-			this.draw(0, 0)
-		}
+		this._canvas = c
+		this.resize()
+		this.ctx = this._canvas.getContext('2d')!
+		setTimeout(() => this.draw(0), 50)
 	}
 	get textCanvas() {
 		return this._canvas
@@ -28,7 +29,8 @@ export default class DrawText {
 		return match?.[1].split(':') || ['--', '--', '--']
 	}
 
-	constructor(canvas?: HTMLCanvasElement, fontSize?: string, columnColor?: string) {
+	constructor(canvas: HTMLCanvasElement, timeline: Timeline, fontSize?: string, columnColor?: string) {
+		this.timeline = timeline
 		if (fontSize) {
 			const m = fontSize.match(/^[-]?(\d+([.]\d+)?)(rem|vw|vh)$/) || '30px'
 			const [, val, , unit] = m
@@ -62,37 +64,39 @@ export default class DrawText {
 	}
 
 	private clear() {
-		if (this._canvas && this.ctx) {
-			this.currTextPos = 0
-			this.ctx.clearRect(0, 0, this._canvas.width, this._canvas.height)
-		}
+		this.currTextPos = 0
+		this.ctx.clearRect(0, 0, this._canvas.width, this._canvas.height)
 	}
 
-	draw(globalTime: number, currentTime: number) {
+	resize() {
+		this._canvas.width = this._canvas.clientWidth
+		this._canvas.height = parseFloat(this.fontSize)
+	}
+
+	draw(currentTime: number) {
 		this.clear()
-		if (this._canvas && this.ctx) {
-			const time = DrawText.convert(currentTime)
-			this.ctx.font = `${this.fontSize} "Libre Baskerville"`
-			this.textHeight = this.ctx.measureText('ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789').fontBoundingBoxAscent
 
-			this.ctx.fillStyle = 'black'
-			this.ctx.fillText(time[0], 0, this.textHeight)
+		const time = DrawText.convert(currentTime)
+		this.ctx.font = `${this.fontSize} "Libre Baskerville"`
+		this.textHeight = this.ctx.measureText('ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789').fontBoundingBoxAscent
 
-			this.ctx.fillStyle = this.columnColor
-			this.cursor(time[0])
-			this.ctx.fillText(':', this.currTextPos, this.textHeight)
+		this.ctx.fillStyle = 'black'
+		this.ctx.fillText(time[0], 0, this.textHeight)
 
-			this.ctx.fillStyle = 'black'
-			this.cursor(':')
-			this.ctx.fillText(time[1], this.currTextPos, this.textHeight)
+		this.ctx.fillStyle = this.columnColor
+		this.cursor(time[0])
+		this.ctx.fillText(':', this.currTextPos, this.textHeight)
 
-			this.ctx.fillStyle = this.columnColor
-			this.cursor(time[0])
-			this.ctx.fillText(':', this.currTextPos, this.textHeight)
+		this.ctx.fillStyle = 'black'
+		this.cursor(':')
+		this.ctx.fillText(time[1], this.currTextPos, this.textHeight)
 
-			this.ctx.fillStyle = 'black'
-			this.cursor(':')
-			this.ctx.fillText(time[2], this.currTextPos, this.textHeight)
-		}
+		this.ctx.fillStyle = this.columnColor
+		this.cursor(time[0])
+		this.ctx.fillText(':', this.currTextPos, this.textHeight)
+
+		this.ctx.fillStyle = 'black'
+		this.cursor(':')
+		this.ctx.fillText(time[2], this.currTextPos, this.textHeight)
 	}
 }

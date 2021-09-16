@@ -35,6 +35,16 @@ export default function ChronoTemplate({
 	useEffect(() => {
 		canvasTimeline.current.setTextCanvas(canvas.current!, fontSize, columnColor)
 		autoplay && canvasTimeline.current.timeline.sync.start()
+
+		const listener = () => {
+			canvasTimeline.current.rangeCanvas?.resize()
+		}
+
+		window.onresize = listener
+
+		return () => {
+			window.onresize = null
+		}
 	}, [])
 
 	return <canvas ref={canvas} />
