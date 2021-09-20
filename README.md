@@ -9,7 +9,7 @@ Timeline is a Javascript Library for the [`window.requestAnimationFrame()`](http
 ### Installation
 
 ```bash
-$ npm i -S timeline
+$ npm i -S kang-timeline
 ```
 
 ### Import
@@ -17,7 +17,7 @@ $ npm i -S timeline
 You can import the library as an es module :
 
 ```javascript
-import Timeline from 'timeline'
+import Timeline from 'kang-timeline'
 ```
 
 Or via the exposed varible `Timeline` :
