@@ -15,7 +15,7 @@ export default class UserKeytimes {
     }
     remove(id) {
         const target = this.list.map(kt => kt.id).indexOf(id);
-        this.list.splice(target, 0);
+        this.list.splice(target, 1);
         this.index--;
     }
     compare(ts) {
