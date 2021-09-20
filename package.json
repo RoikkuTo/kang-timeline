@@ -1,11 +1,11 @@
 {
-	"name": "timeline",
+	"name": "kang-timeline",
 	"version": "1.0.0",
-	"description": "Timeline is a Javascript Library for the window.requestAnimationFrame() API",
+	"description": "A Javascript Library for the window.requestAnimationFrame() API",
 	"files": [
 		"dist"
 	],
-	"main": "dist/bundle.umd.js",
+	"main": "dist/Timeline.js",
 	"module": "./dist/timeline.es.js",
 	"exports": {
 		".": {
@@ -27,15 +27,15 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/RoikkuTo/laughing-eureka.git"
+		"url": "git+https://github.com/RoikkuTo/kang-timeline.git"
 	},
 	"keywords": [],
-	"author": "",
+	"author": "Loïc ETIFER",
 	"license": "ISC",
 	"bugs": {
-		"url": "https://github.com/RoikkuTo/laughing-eureka/issues"
+		"url": "https://github.com/RoikkuTo/kang-timeline/issues"
 	},
-	"homepage": "https://github.com/RoikkuTo/laughing-eureka#readme",
+	"homepage": "https://github.com/RoikkuTo/kang-timeline#readme",
 	"devDependencies": {
 		"@babel/core": "^7.15.0",
 		"@babel/preset-env": "^7.15.0",
