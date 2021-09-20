@@ -29,7 +29,12 @@
 		"type": "git",
 		"url": "git+https://github.com/RoikkuTo/kang-timeline.git"
 	},
-	"keywords": [],
+	"keywords": [
+		"timer",
+		"requestanimationframe",
+		"javascript",
+		"typescript"
+	],
 	"author": "Loïc ETIFER",
 	"license": "ISC",
 	"bugs": {
