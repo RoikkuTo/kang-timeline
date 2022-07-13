@@ -1,6 +1,6 @@
 {
 	"name": "kang-timeline",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"description": "A Javascript Library for the window.requestAnimationFrame() API",
 	"files": [
 		"dist"
@@ -16,7 +16,7 @@
 	"directories": {
 		"test": "test"
 	},
-	"types": "dist/",
+	"types": "dist/Timeline.d.ts",
 	"scripts": {
 		"app": "vite --host",
 		"lib": "vite build --mode lib && tsc --project lib",

@@ -33,7 +33,7 @@ export default class Canvas {
 	constructor(opts?: TimelineOpts, autoplay?: boolean) {
 		this._timeline = new Timeline({
 			...opts,
-			task: ({ currentTime }, timeline) => {
+			task: ({ currentTime }) => {
 				this.textCanvas?.draw(currentTime)
 				this.rangeCanvas?.draw(currentTime)
 			}

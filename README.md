@@ -1,4 +1,4 @@
-# Timeline
+# Kang Timeline
 
 > **Disclamer :** This little project has been made for my personal use but I thougth it could be interesting to share it.
 
