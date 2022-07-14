@@ -30,7 +30,7 @@ Or via the exposed varible `Timeline` :
 const timer = new Timeline()
 ```
 
-# Classes and Methods
+## Classes and Methods
 
 -   **[The Provider `TimeProvider`](#the-provider-timeprovider)**
 -   **[The Timeline class `new Timeline()`](#the-timeline-class-new-timeline)**
@@ -45,7 +45,7 @@ const timer = new Timeline()
     -   [`Timestamp.listKeytimes()`](#timestamplistkeytimes)
 -   **[Todolist](#todolist)**
 
-# The Provider `TimeProvider`
+## The Provider `TimeProvider`
 
 `TimeProvider` represents the global time of our system. It is basically a recursive loop made with rAFs and to which are attached utilitary methods.
 
@@ -68,7 +68,7 @@ All methods are static and so utilitary. To consume the `TimeProvider`, you need
 | start     | Start the loop                                        |
 | loop      | The loop callback                                     |
 
-# The Timeline class `new Timeline()`
+## The Timeline class `new Timeline()`
 
 The Timeline class is actually a subscriber to the `TimeProvider`. All Timelines share the same loop provided by the TimeProvider class but also have their own current timestamp.
 
@@ -148,7 +148,7 @@ As you can see, you can retrive the current timestamp and other informations abo
 
 A range between which the timeline will be effective, with the first index being the _minimum_ and the second being the _maximum_. If set as a number, the range become `[0, number]` with 0 as minimum.
 
-# The Timestamp class `Timestamp`
+## The Timestamp class `Timestamp`
 
 Because each Timeline are based on a provided time, you can access to some informations about your Timeline throught the unique parameter of a task.
 
@@ -157,7 +157,7 @@ Because each Timeline are based on a provided time, you can access to some infor
 | currentTime | `Number` | The current timestamp of your Timeline              |
 | globalTime  | `Number` | The global timestamp, offered by the `TimeProvider` |
 
-# **Control Methods**
+## Control Methods
 
 You can control each Timeline by simple methods, which all can take a delay and a callback as parameters.
 
@@ -185,7 +185,7 @@ timer.start().stop(5000).reset(1000)
 
 Usually, the targeted timestamp and the actual execution timestamp have a delta of _17ms_. So you can use those same methods under the **sync** property.
 
-# Key Times methods
+## Key Times methods
 
 ### `Timestamp.addKeytime([ Object | Array ])`
 
