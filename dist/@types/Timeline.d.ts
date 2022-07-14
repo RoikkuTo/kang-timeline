@@ -187,3 +187,4 @@ export default class Timeline {
     offFinish(listener: () => void): void;
 }
 export {};
+//# sourceMappingURL=Timeline.d.ts.map

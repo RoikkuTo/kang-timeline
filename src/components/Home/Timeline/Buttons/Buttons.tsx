@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef } from 'react'
 import './style.scss'
 
 import start from '@icons/start.svg'
@@ -13,7 +13,7 @@ import style from './style.module.scss'
 import useCanvasTimeline from '@/src/components/hooks/useCanvasTimeline'
 
 const Speed = ({ timeline }: { timeline: Timeline }) => {
-	const handleChange = useCallback(e => {
+	const handleChange = useCallback((e: any) => {
 		timeline.speed = Number(e.target.value)
 	}, [])
 

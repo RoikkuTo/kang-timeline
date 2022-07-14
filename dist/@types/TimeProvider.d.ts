@@ -8,3 +8,4 @@ export default class TimeProvider {
     static checkId(id: Timeline['id']): boolean;
     static unsubscribe(id: Timeline['id']): void;
 }
+//# sourceMappingURL=TimeProvider.d.ts.map

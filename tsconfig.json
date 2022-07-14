@@ -2,17 +2,24 @@
 	"compilerOptions": {
 		"target": "es6",
 		"module": "commonjs",
+		"composite": true,
 		"jsx": "react",
 		"strict": true,
 		"esModuleInterop": true,
 		"skipLibCheck": true,
 		"forceConsistentCasingInFileNames": true,
+		"declarationMap": true,
+		"emitDeclarationOnly": true,
+		"sourceMap": true,
+		"outDir": "./dist",
 		"baseUrl": ".",
 		"paths": {
 			"@icons": ["./src/icons"],
-			"@lib": ["./dist/Timeline"],
+			"@lib": ["./lib"],
 			"@/*": ["./*"]
-		}
+		},
+		"declaration": true,
+		"declarationDir": "./dist/@types"
 	},
 	"exclude": ["node_modules", "node_modules/**/*", "**/node_modules/*", "trash"]
 }

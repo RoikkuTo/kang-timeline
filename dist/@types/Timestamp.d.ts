@@ -3,3 +3,4 @@ export default class Timestamp {
     globalTime: number;
     constructor(currentTime: number, globalTime: number);
 }
+//# sourceMappingURL=Timestamp.d.ts.map

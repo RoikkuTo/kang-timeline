@@ -5,3 +5,4 @@ export default class Chain {
     constructor(context: Timeline);
     add(request: PromiseExecutor, callback?: () => null): Timeline;
 }
+//# sourceMappingURL=Chain.d.ts.map

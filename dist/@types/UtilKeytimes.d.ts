@@ -13,3 +13,4 @@ export default class UtilKeytimes {
     constructor(context: Timeline);
     compare(ts: Timestamp): void;
 }
+//# sourceMappingURL=UtilKeytimes.d.ts.map

@@ -11,3 +11,4 @@ export default class UserKeytimes {
     remove(id: UserKeytime['id']): void;
     compare(ts: Timestamp): void;
 }
+//# sourceMappingURL=UserKeytime.d.ts.map

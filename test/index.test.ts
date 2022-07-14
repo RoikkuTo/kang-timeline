@@ -1,22 +1,12 @@
-import Timeline from '../lib/Timeline'
+import Timeline from '@lib'
 
 describe('Timeline', () => {
-	/**
-	 * Sleep
-	 * @param duration in seconds
-	 */
-	const sleep = (duration: number) =>
-		new Promise((resolve, reject) => {
-			return setTimeout(resolve, duration * 1000)
-		})
-
-	// beforeEach(() => {
-	// 	jest.spyOn(window, 'requestAnimationFrame').mockImplementation(cb)
-	// })
+	const sleep = (duration: number) => new Promise(resolve => setTimeout(resolve, duration * 1000))
 
 	it('should trigger the finish event', async () => {
 		let bool = false
 		let c = 0
+
 		const timeline = new Timeline({ range: 1000 })
 
 		timeline.start()
@@ -25,12 +15,9 @@ describe('Timeline', () => {
 			c++
 		})
 
-		sleep(2)
+		await sleep(2)
+
 		expect(bool).toBe(true)
 		expect(c).toBe(1)
 	})
-
-	// afterEach(() => {
-	// 	window.requestAnimationFrame.mockRestore()
-	// })
 })

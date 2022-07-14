@@ -2,10 +2,7 @@
 	"name": "kang-timeline",
 	"version": "1.0.2",
 	"description": "A Javascript Library for the window.requestAnimationFrame() API",
-	"files": [
-		"dist"
-	],
-	"main": "dist/Timeline.js",
+	"main": "./dist/timeline.umd.js",
 	"module": "./dist/timeline.es.js",
 	"exports": {
 		".": {
@@ -13,17 +10,18 @@
 			"require": "./dist/timeline.umd.js"
 		}
 	},
+	"types": "dist/@types/index.d.ts",
 	"directories": {
 		"test": "test"
 	},
-	"types": "dist/Timeline.d.ts",
 	"scripts": {
 		"app": "vite --host",
-		"lib": "vite build --mode lib && tsc --project lib",
-		"build": "vite build",
+		"lib": "vite build --mode lib",
+		"postlib": "tsc --project lib",
 		"preview": "vite preview",
+		"build": "vite build",
 		"types": "tsc --watch --noEmit",
-		"test": "jest"
+		"test": "jest --watch"
 	},
 	"repository": {
 		"type": "git",
@@ -37,28 +35,25 @@
 	],
 	"author": "Loïc ETIFER",
 	"license": "ISC",
+	"files": [
+		"dist"
+	],
 	"bugs": {
 		"url": "https://github.com/RoikkuTo/kang-timeline/issues"
 	},
 	"homepage": "https://github.com/RoikkuTo/kang-timeline#readme",
 	"devDependencies": {
-		"@babel/core": "^7.15.0",
-		"@babel/preset-env": "^7.15.0",
-		"@babel/preset-typescript": "^7.15.0",
-		"@types/jest": "^27.0.1",
-		"@types/react": "^17.0.17",
-		"@types/react-dom": "^17.0.9",
-		"@typescript-eslint/eslint-plugin": "^4.29.0",
-		"@typescript-eslint/parser": "^4.29.0",
-		"babel-jest": "^27.0.6",
-		"eslint": "^7.32.0",
-		"eslint-plugin-react": "^7.24.0",
-		"jest": "^27.0.6",
-		"vite": "^2.4.4"
+		"@types/jest": "^28.1.5",
+		"@types/react": "^18.0.15",
+		"@types/react-dom": "^18.0.6",
+		"jest": "^28.1.3",
+		"jest-environment-jsdom": "^28.1.3",
+		"ts-jest": "^28.0.5",
+		"typescript": "^4.7.4",
+		"vite": "^3.0.0"
 	},
 	"dependencies": {
-		"react": "^17.0.2",
-		"react-dom": "^17.0.2",
-		"sass": "^1.37.5"
+		"react": "^18.2.0",
+		"react-dom": "^18.2.0"
 	}
 }

@@ -1,6 +1,6 @@
-import Timeline from '@/dist/Timeline'
+import Timeline from '@lib'
 import useCanvasTimeline from '@/src/components/hooks/useCanvasTimeline'
-import React, { useEffect, useCallback, useState, useRef } from 'react'
+import React, { useEffect, useCallback, useRef } from 'react'
 import './style.scss'
 
 const Track = ({ ratio }: { ratio: number }) => {
@@ -37,7 +37,7 @@ const Range = ({ canvasTimeline }: { canvasTimeline: ReturnType<typeof useCanvas
 	// )
 	const canvas = useRef<HTMLCanvasElement>(null)
 
-	const handleMouseDown = useCallback(e => {
+	const handleMouseDown = useCallback((e: any) => {
 		prevTState.current = canvasTimeline.current.timeline.state
 		canvasTimeline.current.timeline.sync.stop()
 		active.current = true

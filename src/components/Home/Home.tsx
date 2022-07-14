@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import Chrono from './Chrono/Chrono'
 import Descr from './Descr'
 import style from './style.module.scss'
@@ -18,11 +18,11 @@ export const RecordContext = React.createContext<Ctx>({
 export default function Home() {
 	const [timelineList, setTimelineList] = useState<[number, number][]>([[0, 5000]])
 
-	const addTimeline = useCallback((minRange, maxRange) => {
+	const addTimeline = useCallback((minRange: number, maxRange: number) => {
 		if (minRange !== 0 && maxRange !== 0) setTimelineList(prev => [...prev, [minRange, maxRange]])
 	}, [])
 
-	const removeTimeline = useCallback(idx => {
+	const removeTimeline = useCallback((idx: number) => {
 		setTimelineList(prev => {
 			const tmp = [...prev]
 			tmp.splice(idx, 1)

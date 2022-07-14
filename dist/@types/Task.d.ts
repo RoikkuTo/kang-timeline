@@ -15,3 +15,4 @@ export default class Task {
     constructor(task: UserTask);
     run(timestamp: Timestamp): void;
 }
+//# sourceMappingURL=Task.d.ts.map
