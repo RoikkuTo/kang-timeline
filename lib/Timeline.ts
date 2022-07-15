@@ -4,6 +4,7 @@ import UserKeytimes, { UserKeytime } from './UserKeytime'
 import Chain from './Chain'
 import UtilKeytimes, { UtilKeytime } from './UtilKeytimes'
 import Timestamp from './Timestamp'
+import { nanoid } from 'nanoid'
 
 export interface TimelineOpts {
 	/**
@@ -59,7 +60,7 @@ interface SyncControl {
 }
 
 export default class Timeline {
-	private _id: NonNullable<TimelineOpts['id']> = Date.now()
+	private _id: NonNullable<TimelineOpts['id']> = nanoid()
 	private _task?: NonNullable<TimelineOpts['task']> | null
 	private _range: NonNullable<TimelineOpts['range']> | null = null
 

@@ -12,7 +12,14 @@ export default defineConfig(({ command, mode }) => {
 					formats: ['es', 'umd'],
 					fileName: format => `timeline.${format}.js`
 				},
-				emptyOutDir: false
+				rollupOptions: {
+					external: ['nanoid'],
+					output: {
+						globals: {
+							nanoid: 'nanoid'
+						}
+					}
+				}
 			},
 			resolve: {
 				alias: {

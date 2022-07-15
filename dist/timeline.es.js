@@ -1,3 +1,4 @@
+import { nanoid as c } from "nanoid";
 let u = [];
 class r {
   static loop(t) {
@@ -23,7 +24,7 @@ class r {
   }
 }
 r.start();
-class c {
+class m {
   constructor(t) {
     if (this.frequency = 1, this.task = () => null, this.count = 0, typeof t == "object") {
       const { frequency: s, run: i } = t;
@@ -35,7 +36,7 @@ class c {
     this.task && t.currentTime % this.frequency > 0 && (this.count++, this.task({ ...t, count: this.count }));
   }
 }
-class m {
+class d {
   constructor() {
     this.list = [], this.index = 0;
   }
@@ -50,7 +51,7 @@ class m {
     this.list[this.index] && this.list[this.index].timestamp <= t.currentTime && (this.list[this.index].task(t), this.index++);
   }
 }
-class d {
+class f {
   constructor(t) {
     this.link = null, this.context = t;
   }
@@ -65,7 +66,7 @@ class d {
     }), this.context;
   }
 }
-class f {
+class y {
   constructor(t) {
     this.temp = null, this.keytime = null, this.timestamp = 0, this.context = t;
   }
@@ -78,10 +79,10 @@ class l {
     this.currentTime = t, this.globalTime = s;
   }
 }
-class y {
+class _ {
   constructor({ id: t, speed: s, task: i, loop: n, range: h } = {}) {
     var o;
-    this._id = Date.now(), this._range = null, this._state = "stop", this.taskObj = null, this.bank = null, this.initial = 0, this.current = 0, this._min = 0, this._max = null, this.finishHandlers = [], this.isFinished = !1, this.sync = {
+    this._id = c(), this._range = null, this._state = "stop", this.taskObj = null, this.bank = null, this.initial = 0, this.current = 0, this._min = 0, this._max = null, this.finishHandlers = [], this.isFinished = !1, this.sync = {
       start: (e) => {
         this._state = "start", e == null || e();
       },
@@ -91,7 +92,7 @@ class y {
       reset: (e) => {
         this._state = "reset", e == null || e();
       }
-    }, t && (this.id = t), this.speed = s || 1, i && (this.task = i), h && (this.range = h), this.loop = !!n, this.userKeytimes = new m(), this.chain = new d(this), this.utilKeytimes = new f(this), Array.isArray(this._range) && (this.current = (o = this._range) == null ? void 0 : o[0]), r.subscribe(this);
+    }, t && (this.id = t), this.speed = s || 1, i && (this.task = i), h && (this.range = h), this.loop = !!n, this.userKeytimes = new d(), this.chain = new f(this), this.utilKeytimes = new y(this), Array.isArray(this._range) && (this.current = (o = this._range) == null ? void 0 : o[0]), r.subscribe(this);
   }
   get id() {
     return this._id;
@@ -103,7 +104,7 @@ class y {
     return this._task;
   }
   set task(t) {
-    this._task = t, this.taskObj = t ? new c(t) : null;
+    this._task = t, this.taskObj = t ? new m(t) : null;
   }
   get range() {
     return this._range;
@@ -197,5 +198,5 @@ class y {
   }
 }
 export {
-  y as default
+  _ as default
 };
