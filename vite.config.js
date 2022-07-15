@@ -13,7 +13,7 @@ export default defineConfig(({ command, mode }) => {
 					fileName: format => `timeline.${format}.js`
 				},
 				rollupOptions: {
-					external: ['nanoid'],
+					external: ['@types/react', '@types/react-dom', 'react', 'react-dom', 'nanoid'],
 					output: {
 						globals: {
 							nanoid: 'nanoid'
