@@ -1,6 +1,6 @@
 {
 	"name": "kang-timeline",
-	"version": "1.0.2",
+	"version": "1.1.0",
 	"description": "A Javascript Library for the window.requestAnimationFrame() API",
 	"main": "./dist/timeline.umd.js",
 	"module": "./dist/timeline.es.js",
